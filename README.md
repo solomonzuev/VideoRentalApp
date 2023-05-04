@@ -10,23 +10,23 @@ This is a movie rental system that allows users to browse, search, and rent movi
 2. View list of movies
 3. Search movies by genre, actors, and format
 4. Rent movies
-	4.1. Choose the format of the movie
-	4.2. Select the rental period
-	4.3. Enter payment information (conditional payment)
-	4.4. Receive information on where to pick up the movie after payment
-		4.4.1. Pickup location address
-		4.4.2. Link to view the movie
+	1. Choose the format of the movie
+	2. Select the rental period
+	3. Enter payment information (conditional payment)
+	4. Receive information on where to pick up the movie after payment
+		1. Pickup location address
+		2. Link to view the movie
 5. View rented movies
 6. View list of all movies (operator)
-	6.1. Ability to edit movie information
-	6.2. Ability to add new movies
+	1. Ability to edit movie information
+	2. Ability to add new movies
 7. View information about rented movies (operator)
-	7.1. Ability to confirm movie return
-	7.2. Ability to rent out a movie
-	7.3. Ability to add user to blacklist (user will no longer be able to rent movies)
+	1. Ability to confirm movie return
+	2. Ability to rent out a movie
+	3. Ability to add user to blacklist (user will no longer be able to rent movies)
 8. View information about actors
-	8.1. Ability to edit actor information
-	8.2. Ability to add new actors
+	1. Ability to edit actor information
+	2. Ability to add new actors
 9. Edit user information (operator)
 10. Register new employee (administrator)
 11. Design using MaterialDesignThemes library
