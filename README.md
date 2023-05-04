@@ -36,7 +36,7 @@ This is a movie rental system that allows users to browse, search, and rent movi
 
 The movie rental system is built using the following technologies:
 
-- ASP.NET Core
+- WPF
 - C#
 - EntityFrameworkCore
 - MaterialDesignThemes
