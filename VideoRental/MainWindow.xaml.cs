@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -26,7 +27,7 @@ namespace VideoRental
         {
             InitializeComponent();
 
-            LBoxMenu.DataContext = new SideMenuViewModel(new()
+            DataContext = new MainWindowViewModel(new()
             {
                 new MenuItemViewModel("Пункт 1", typeof(FilmsPage)),
                 new MenuItemViewModel("Пункт 2", null),
@@ -40,10 +41,16 @@ namespace VideoRental
 
         private void LBoxMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (LBoxMenu.DataContext is SideMenuViewModel sideMenuVM)
+            if (LBoxMenu.DataContext is MainWindowViewModel sideMenuVM)
             {
                 sideMenuVM.OpenSelectedPage();
             }
+        }
+
+        private void MenuToggleButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            DrawerHost.OpenDrawerCommand.Execute(null, null);
+            MenuToggleButton.IsChecked = false;
         }
     }
 }
