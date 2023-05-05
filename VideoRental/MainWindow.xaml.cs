@@ -22,13 +22,15 @@ namespace VideoRental
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<string> DemoItems { get; }
-
         public MainWindow()
         {
             InitializeComponent();
 
-            LBoxMenu.DataContext = new SideMenuViewModel();
+            LBoxMenu.DataContext = new SideMenuViewModel(new()
+            {
+                new MenuItemViewModel("Пункт 1", typeof(FilmsPage)),
+                new MenuItemViewModel("Пункт 2", null),
+            });
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

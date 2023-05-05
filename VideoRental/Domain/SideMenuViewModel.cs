@@ -16,13 +16,9 @@ namespace VideoRental.Domain
 
         public ObservableCollection<MenuItemViewModel> MenuItems { get; }
         
-        public SideMenuViewModel()
+        public SideMenuViewModel(ObservableCollection<MenuItemViewModel> menuItems)
         {
-            MenuItems = new()
-            {
-                new MenuItemViewModel("Пункт 1", typeof(FilmsPage)),
-                new MenuItemViewModel("Пункт 2", null),
-            };
+            MenuItems = menuItems;
         }
 
         public void OpenSelectedPage()
