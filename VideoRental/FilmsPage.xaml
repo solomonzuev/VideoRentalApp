@@ -4,11 +4,64 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VideoRental"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="12"
+      TextOptions.TextFormattingMode="Ideal" 
+      TextOptions.TextRenderingMode="Auto"        
+      Background="{DynamicResource MaterialDesignPaper}"
+      FontFamily="{DynamicResource MaterialDesignFont}"
       Title="FilmsPage">
-
-    <Grid>
-        
-    </Grid>
+    <!--<Page.Resources>
+        <Style TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}">
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+            <Setter Property="GridLinesVisibility" Value="Vertical" />
+            <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource MaterialDesignDivider}" />
+            <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource MaterialDesignDivider}" />
+            <Setter Property="RowBackground" Value="Transparent" />
+            <Setter Property="AlternatingRowBackground" Value="{DynamicResource MaterialDesignListDivider}" />
+            <Setter Property="RowHeight" Value="48" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="SelectionMode" Value="Extended" />
+            <Setter Property="SelectionUnit" Value="FullRow" />
+            <Setter Property="CanUserResizeColumns" Value="False" />
+            <Setter Property="CanUserResizeRows" Value="False" />
+            <Setter Property="CanUserReorderColumns" Value="False" />
+            <Setter Property="CanUserSortColumns" Value="False" />
+            <Setter Property="CanUserAddRows" Value="False" />
+            <Setter Property="AutoGenerateColumns" Value="False" />
+            <Setter Property="ClipboardCopyMode" Value="IncludeHeader" />
+            <Setter Property="Padding" Value="8" />
+        </Style>
+    </Page.Resources>-->
+    <DockPanel Margin="10">
+        <DataGrid x:Name="DGridVideos" Style="{StaticResource MaterialDesignDataGrid}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="*" Header="Название" Binding="{Binding VideoName}" />
+                <DataGridTextColumn Width="*" Header="Жанр" Binding="{Binding VideoName}" />
+                <DataGridTextColumn Width="*" Header="Автор" Binding="{Binding VideoName}" />
+                <DataGridTextColumn Width="*" Binding="{Binding VideoName}">
+                    <DataGridTextColumn.Header>
+                        <TextBlock TextWrapping="Wrap" Text="Возрастной рейтинг" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="*" Header="Цена за 3 дня" Binding="{Binding Price3Days}" />
+                <DataGridTemplateColumn Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                               materialDesign:ButtonAssist.CornerRadius="5"
+                               IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                               ToolTip="Посмотреть подробные сведения о фильме" 
+                               Content="Подробнее" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
 </Page>

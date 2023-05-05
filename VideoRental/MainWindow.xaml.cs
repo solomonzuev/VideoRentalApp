@@ -26,6 +26,11 @@ namespace VideoRental
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            NavigationManager.Frame = MainFrame;
 
             DataContext = new MainWindowViewModel(new()
             {
