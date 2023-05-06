@@ -31,12 +31,7 @@ namespace VideoRental
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            DGridFilms.ItemsSource = await VideoRentalDbContext.GetContext().Films
-                .Where(f => f.FilmsInMedia.Any(fm => fm.IsAvaliable == true))
-                .Include(f => f.Author)
-                .Include(f => f.Genre)
-                .Include(f => f.Actors)
-                .ToListAsync();
+            DGridFilms.ItemsSource = await GetFilmsAsync();
         }
 
         private void BtnMoreDetails_Click(object sender, RoutedEventArgs e)
@@ -53,31 +48,34 @@ namespace VideoRental
 
         private async void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TextToSearch.Text))
-            {
-                DGridFilms.ItemsSource = await VideoRentalDbContext.GetContext().Films
-                    .Where(f => f.FilmsInMedia.Any(fm => fm.IsAvaliable == true))
-                    .Include(f => f.Author)
-                    .Include(f => f.Genre)
-                    .Include(f => f.Actors)
-                    .ToListAsync();
-            }
-            else
+            DGridFilms.ItemsSource = await GetFilmsAsync();
+        }
+
+        private async Task<List<Film>> GetFilmsAsync()
+        {
+            // Выбираем все фильмы, которые доступны хотя бы на одном носителе
+            var query = VideoRentalDbContext.GetContext().Films
+                    .Where(f => f.FilmsInMedia.Any(fm => fm.IsAvaliable == true));
+
+            // Фильтрация по введённому тексту
+            if (!string.IsNullOrWhiteSpace(TextToSearch.Text))
             {
                 string textToSearch = TextToSearch.Text.ToUpper();
 
-                DGridFilms.ItemsSource = await VideoRentalDbContext.GetContext().Films
-                    .Where(f => f.FilmsInMedia.Any(fm => fm.IsAvaliable == true))
+                query = query.Where(f => f.FilmsInMedia.Any(fm => fm.IsAvaliable == true))
                     .Where(f => f.Name.ToUpper().Contains(textToSearch)
                         || f.Genre.Name.ToUpper().Contains(textToSearch)
                         || f.Author.FullName.ToUpper().Contains(textToSearch)
                         || f.LimitAge.ToString().Contains(textToSearch)
-                        || f.Price3Days.ToString().Contains(textToSearch))
-                    .Include(f => f.Author)
-                    .Include(f => f.Genre)
-                    .Include(f => f.Actors)
-                    .ToListAsync();
+                        || f.Price3Days.ToString().Contains(textToSearch));
             }
+
+            // Подключаем все необходимые сущности и возвращаем результат
+            return await query
+                .Include(f => f.Author)
+                .Include(f => f.Genre)
+                .Include(f => f.Actors)
+                .ToListAsync();
         }
 
         private void TextToSearch_KeyDown(object sender, KeyEventArgs e)
