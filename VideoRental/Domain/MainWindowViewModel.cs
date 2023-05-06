@@ -33,8 +33,7 @@ namespace VideoRental.Domain
         public RelayCommand HomeCommand { get; }
         public RelayCommand MovePrevCommand { get; }
         public RelayCommand MoveNextCommand { get; }
-        public RelayCommand ToggleFiltersCommand { get; }
-
+        
         public MainWindowViewModel(ObservableCollection<MenuItemViewModel> menuItems)
         {
             MenuItems = menuItems;
@@ -58,26 +57,6 @@ namespace VideoRental.Domain
                    SelectedIndex++;
                },
                _ => SelectedIndex < MenuItems.Count - 1);
-
-            ToggleFiltersCommand = new RelayCommand
-                (
-                (filtersPanel) =>
-                {
-                    IsFilterPanelOpen = !IsFilterPanelOpen;
-
-                    if (filtersPanel is FrameworkElement element)
-                    {
-                        if (element.Visibility == Visibility.Visible)
-                        {
-                            element.Visibility = Visibility.Collapsed;
-                        }
-                        else
-                        {
-                            element.Visibility = Visibility.Visible;
-                        }
-                    }
-
-                }, null);
         }
 
         public void OpenSelectedPage()

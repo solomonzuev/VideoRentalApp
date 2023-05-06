@@ -76,7 +76,7 @@
                 </materialDesign:ColorZone>
 
                 <!-- Окно для загрузки страниц -->
-                <Frame x:Name="MainFrame" Grid.Row="1" Padding="16"></Frame>
+                <Frame x:Name="MainFrame" Grid.Row="1" Padding="16" NavigationUIVisibility="Hidden"></Frame>
             </Grid>
 
             <!-- Боковое меню -->

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace VideoRental.Models;
 
@@ -25,11 +26,13 @@ public partial class Film
 
     public virtual FilmCredit Director { get; set; } = null!;
 
-    public virtual ICollection<FilmsInMedium> FilmsInMedia { get; set; } = new List<FilmsInMedium>();
+    public virtual ICollection<FilmsInMedia> FilmsInMedia { get; set; } = new List<FilmsInMedia>();
 
     public virtual Genre Genre { get; set; } = null!;
 
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 
     public virtual ICollection<FilmCredit> Actors { get; set; } = new List<FilmCredit>();
+
+    public string ActorsText => string.Join(", ", Actors.Select(a => a.FullName));
 }

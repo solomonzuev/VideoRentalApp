@@ -35,15 +35,20 @@ namespace VideoRental
                 .Where(f => f.FilmsInMedia.Any(fm => fm.IsAvaliable == true))
                 .Include(f => f.Author)
                 .Include(f => f.Genre)
+                .Include(f => f.Actors)
                 .ToListAsync();
         }
 
         private void BtnMoreDetails_Click(object sender, RoutedEventArgs e)
         {
-        //    if (sender is Button { DataContext: Video video })
-        //    {
-        //        // Создать новое окно MoreDetailsWindow
-        //    }
+            if (sender is Button { DataContext: Film selectedFilm })
+            {
+                var wnd = new MoreDetailsWindow(selectedFilm)
+                {
+                    Owner = Window.GetWindow(this)
+                };
+                wnd.ShowDialog();
+            }
         }
 
         private async void BtnSearch_Click(object sender, RoutedEventArgs e)
@@ -54,6 +59,7 @@ namespace VideoRental
                     .Where(f => f.FilmsInMedia.Any(fm => fm.IsAvaliable == true))
                     .Include(f => f.Author)
                     .Include(f => f.Genre)
+                    .Include(f => f.Actors)
                     .ToListAsync();
             }
             else
@@ -67,6 +73,9 @@ namespace VideoRental
                         || f.Author.FullName.ToUpper().Contains(textToSearch)
                         || f.LimitAge.ToString().Contains(textToSearch)
                         || f.Price3Days.ToString().Contains(textToSearch))
+                    .Include(f => f.Author)
+                    .Include(f => f.Genre)
+                    .Include(f => f.Actors)
                     .ToListAsync();
             }
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace VideoRental.Models;
 
-public partial class FilmsInMedium
+public partial class FilmsInMedia
 {
     public int Id { get; set; }
 

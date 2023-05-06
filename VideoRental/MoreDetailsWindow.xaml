@@ -1,0 +1,68 @@
+﻿<Window x:Class="VideoRental.MoreDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VideoRental"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="12"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="Подробная информация о фильме"
+        Width="500" Height="550"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Text="{Binding Name}" FontSize="24" FontWeight="Bold" Margin="0 0 0 10" />
+            <Image Grid.Column="1" 
+                   VerticalAlignment="Top" 
+                   Source="/Resources/no_image_avaliable.png" 
+                   Width="150" Height="200" Margin="10" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                <TextBlock Text="Жанр:" FontWeight="Bold" Width="150" />
+                <TextBlock Text="{Binding Genre.Name}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                <TextBlock Text="Автор:" FontWeight="Bold" Width="150" />
+                <TextBlock Text="{Binding Author.FullName}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                <TextBlock Text="Режиссёр:" FontWeight="Bold" Width="150" />
+                <TextBlock Text="{Binding Director.FullName}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                <TextBlock Text="Актёры:" FontWeight="Bold" Width="150" />
+                <TextBlock Text="{Binding ActorsText}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                <TextBlock Text="Цена аренды (3 дня):" FontWeight="Bold" Width="150" />
+                <TextBlock Text="{Binding Price3Days, StringFormat={}{0:F2} руб.}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                <TextBlock Text="Возрастной рейтинг:" FontWeight="Bold" Width="150" />
+                <TextBlock Text="{Binding LimitAge, StringFormat={}{0}+}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                <TextBlock Text="Дата выхода:" FontWeight="Bold" Width="150" />
+                <TextBlock Text="{Binding ReleaseDate, StringFormat=dd.MM.yyyy}" />
+            </StackPanel>
+        </StackPanel>
+
+        <Button x:Name="BtnRent" Content="Арендовать" Grid.Row="2" MaxWidth="150" Margin="0 20" Click="BtnRent_Click" />
+    </Grid>
+</Window>

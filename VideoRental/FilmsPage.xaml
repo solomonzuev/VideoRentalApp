@@ -22,10 +22,7 @@
             <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
             <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignDivider}" />
             <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Padding" Value="0 10"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-
+            <Setter Property="Padding" Value="16 10"/>
         </Style>
     </Page.Resources>
     <StackPanel Margin="10">

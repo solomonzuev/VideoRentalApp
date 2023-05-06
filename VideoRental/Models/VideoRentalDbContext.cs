@@ -29,7 +29,7 @@ public partial class VideoRentalDbContext : DbContext
 
     public virtual DbSet<FilmCredit> FilmCredits { get; set; }
 
-    public virtual DbSet<FilmsInMedium> FilmsInMedia { get; set; }
+    public virtual DbSet<FilmsInMedia> FilmsInMedia { get; set; }
 
     public virtual DbSet<Genre> Genres { get; set; }
 
@@ -137,7 +137,7 @@ public partial class VideoRentalDbContext : DbContext
                 .IsFixedLength();
         });
 
-        modelBuilder.Entity<FilmsInMedium>(entity =>
+        modelBuilder.Entity<FilmsInMedia>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__VideosIn__3214EC07143A6298");
 
