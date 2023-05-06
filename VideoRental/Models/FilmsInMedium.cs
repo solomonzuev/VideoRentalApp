@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace VideoRental.Models;
 
-public partial class VideosInMedia
+public partial class FilmsInMedium
 {
     public int Id { get; set; }
 
-    public int VideoId { get; set; }
+    public int FilmId { get; set; }
 
     public int MediaTypeId { get; set; }
 
@@ -17,9 +17,9 @@ public partial class VideosInMedia
 
     public bool? IsAvaliable { get; set; }
 
+    public virtual Film Film { get; set; } = null!;
+
     public virtual MediaType MediaType { get; set; } = null!;
 
     public virtual StoreLocation Store { get; set; } = null!;
-
-    public virtual Video Video { get; set; } = null!;
 }

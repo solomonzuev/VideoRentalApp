@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace VideoRental.Domain
@@ -8,6 +9,7 @@ namespace VideoRental.Domain
     {
         private int _selectedIndex;
         private MenuItemViewModel _selectedItem;
+        private bool _isFilterPanelOpen;
 
         public int SelectedIndex
         {
@@ -21,10 +23,17 @@ namespace VideoRental.Domain
             set => SetProperty(ref _selectedItem, value);
         }
 
+        public bool IsFilterPanelOpen
+        {
+            get => _isFilterPanelOpen;
+            set => SetProperty(ref _isFilterPanelOpen, value);
+        }
+
         public ObservableCollection<MenuItemViewModel> MenuItems { get; }
         public RelayCommand HomeCommand { get; }
         public RelayCommand MovePrevCommand { get; }
         public RelayCommand MoveNextCommand { get; }
+        public RelayCommand ToggleFiltersCommand { get; }
 
         public MainWindowViewModel(ObservableCollection<MenuItemViewModel> menuItems)
         {
@@ -49,6 +58,26 @@ namespace VideoRental.Domain
                    SelectedIndex++;
                },
                _ => SelectedIndex < MenuItems.Count - 1);
+
+            ToggleFiltersCommand = new RelayCommand
+                (
+                (filtersPanel) =>
+                {
+                    IsFilterPanelOpen = !IsFilterPanelOpen;
+
+                    if (filtersPanel is FrameworkElement element)
+                    {
+                        if (element.Visibility == Visibility.Visible)
+                        {
+                            element.Visibility = Visibility.Collapsed;
+                        }
+                        else
+                        {
+                            element.Visibility = Visibility.Visible;
+                        }
+                    }
+
+                }, null);
         }
 
         public void OpenSelectedPage()

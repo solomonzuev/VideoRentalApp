@@ -9,5 +9,5 @@ public partial class MediaType
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<VideosInMedia> VideosInMedia { get; set; } = new List<VideosInMedia>();
+    public virtual ICollection<FilmsInMedium> FilmsInMedia { get; set; } = new List<FilmsInMedium>();
 }

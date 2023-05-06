@@ -19,5 +19,5 @@ public partial class StoreLocation
 
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
-    public virtual ICollection<VideosInMedia> VideosInMedia { get; set; } = new List<VideosInMedia>();
+    public virtual ICollection<FilmsInMedium> FilmsInMedia { get; set; } = new List<FilmsInMedium>();
 }

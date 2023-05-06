@@ -7,7 +7,7 @@ public partial class Transaction
 {
     public int Id { get; set; }
 
-    public int VideoId { get; set; }
+    public int FilmId { get; set; }
 
     public int CustomerId { get; set; }
 
@@ -25,5 +25,5 @@ public partial class Transaction
 
     public virtual Employee Employee { get; set; } = null!;
 
-    public virtual Video Video { get; set; } = null!;
+    public virtual Film Film { get; set; } = null!;
 }

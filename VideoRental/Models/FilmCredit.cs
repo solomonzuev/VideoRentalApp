@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace VideoRental.Models;
 
-public partial class VideoCredit
+public partial class FilmCredit
 {
     public int Id { get; set; }
 
@@ -17,9 +17,9 @@ public partial class VideoCredit
 
     public DateTime? Deathdate { get; set; }
 
-    public virtual ICollection<Video> VideoAuthors { get; set; } = new List<Video>();
+    public virtual ICollection<Film> FilmAuthors { get; set; } = new List<Film>();
 
-    public virtual ICollection<Video> VideoDirectors { get; set; } = new List<Video>();
+    public virtual ICollection<Film> FilmDirectors { get; set; } = new List<Film>();
 
-    public virtual ICollection<Video> Videos { get; set; } = new List<Video>();
+    public virtual ICollection<Film> Films { get; set; } = new List<Film>();
 }

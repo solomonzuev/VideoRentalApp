@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace VideoRental.Models;
@@ -24,6 +25,12 @@ public partial class VideoRentalDbContext : DbContext
 
     public virtual DbSet<Employee> Employees { get; set; }
 
+    public virtual DbSet<Film> Films { get; set; }
+
+    public virtual DbSet<FilmCredit> FilmCredits { get; set; }
+
+    public virtual DbSet<FilmsInMedium> FilmsInMedia { get; set; }
+
     public virtual DbSet<Genre> Genres { get; set; }
 
     public virtual DbSet<MediaType> MediaTypes { get; set; }
@@ -36,16 +43,11 @@ public partial class VideoRentalDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    public virtual DbSet<Video> Videos { get; set; }
-
-    public virtual DbSet<VideoCredit> VideoCredits { get; set; }
-
-    public virtual DbSet<VideosInMedia> VideosInMedia { get; set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=VideoRentalDB;Integrated Security=True");
-
+    {
+        var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        optionsBuilder.UseSqlServer(connectionString);
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Customer>(entity =>
@@ -80,6 +82,85 @@ public partial class VideoRentalDbContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Employees)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK__Employees__UserI__6166761E");
+        });
+
+        modelBuilder.Entity<Film>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_Videos");
+
+            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.Price3Days).HasColumnType("money");
+            entity.Property(e => e.ReleaseDate).HasColumnType("date");
+
+            entity.HasOne(d => d.Author).WithMany(p => p.FilmAuthors)
+                .HasForeignKey(d => d.AuthorId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Videos_VideoCelebrities");
+
+            entity.HasOne(d => d.Director).WithMany(p => p.FilmDirectors)
+                .HasForeignKey(d => d.DirectorId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Videos_VideoCelebrities1");
+
+            entity.HasOne(d => d.Genre).WithMany(p => p.Films)
+                .HasForeignKey(d => d.GenreId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Videos_Genres");
+
+            entity.HasMany(d => d.Actors).WithMany(p => p.Films)
+                .UsingEntity<Dictionary<string, object>>(
+                    "ActorsInVideo",
+                    r => r.HasOne<FilmCredit>().WithMany()
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_ActorsInVideos_VideoParticipants"),
+                    l => l.HasOne<Film>().WithMany()
+                        .HasForeignKey("FilmId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_ActorsInVideos_Videos"),
+                    j =>
+                    {
+                        j.HasKey("FilmId", "ActorId");
+                        j.ToTable("ActorsInVideos");
+                    });
+        });
+
+        modelBuilder.Entity<FilmCredit>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_VideoCelebrities");
+
+            entity.Property(e => e.Birthdate).HasColumnType("date");
+            entity.Property(e => e.Deathdate).HasColumnType("date");
+            entity.Property(e => e.FullName).HasMaxLength(100);
+            entity.Property(e => e.Sex)
+                .HasMaxLength(1)
+                .IsFixedLength();
+        });
+
+        modelBuilder.Entity<FilmsInMedium>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__VideosIn__3214EC07143A6298");
+
+            entity.HasIndex(e => new { e.FilmId, e.MediaTypeId }, "UQ__VideosIn__51C93937FCAF3C89").IsUnique();
+
+            entity.Property(e => e.IsAvaliable)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+
+            entity.HasOne(d => d.Film).WithMany(p => p.FilmsInMedia)
+                .HasForeignKey(d => d.FilmId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__VideosInM__Video__540C7B00");
+
+            entity.HasOne(d => d.MediaType).WithMany(p => p.FilmsInMedia)
+                .HasForeignKey(d => d.MediaTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__VideosInM__Media__55009F39");
+
+            entity.HasOne(d => d.Store).WithMany(p => p.FilmsInMedia)
+                .HasForeignKey(d => d.StoreId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_VideosInMedia_StoreLocations");
         });
 
         modelBuilder.Entity<Genre>(entity =>
@@ -128,8 +209,8 @@ public partial class VideoRentalDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Transactions_Employees");
 
-            entity.HasOne(d => d.Video).WithMany(p => p.Transactions)
-                .HasForeignKey(d => d.VideoId)
+            entity.HasOne(d => d.Film).WithMany(p => p.Transactions)
+                .HasForeignKey(d => d.FilmId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Transactions_Videos");
         });
@@ -140,83 +221,6 @@ public partial class VideoRentalDbContext : DbContext
 
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.Password).HasMaxLength(100);
-        });
-
-        modelBuilder.Entity<Video>(entity =>
-        {
-            entity.Property(e => e.Price3Days).HasColumnType("money");
-            entity.Property(e => e.ReleaseDate).HasColumnType("date");
-            entity.Property(e => e.VideoName).HasMaxLength(100);
-
-            entity.HasOne(d => d.Author).WithMany(p => p.VideoAuthors)
-                .HasForeignKey(d => d.AuthorId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Videos_VideoCelebrities");
-
-            entity.HasOne(d => d.Director).WithMany(p => p.VideoDirectors)
-                .HasForeignKey(d => d.DirectorId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Videos_VideoCelebrities1");
-
-            entity.HasOne(d => d.Genre).WithMany(p => p.Videos)
-                .HasForeignKey(d => d.GenreId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Videos_Genres");
-
-            entity.HasMany(d => d.Actors).WithMany(p => p.Videos)
-                .UsingEntity<Dictionary<string, object>>(
-                    "ActorsInVideo",
-                    r => r.HasOne<VideoCredit>().WithMany()
-                        .HasForeignKey("ActorId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_ActorsInVideos_VideoParticipants"),
-                    l => l.HasOne<Video>().WithMany()
-                        .HasForeignKey("VideoId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_ActorsInVideos_Videos"),
-                    j =>
-                    {
-                        j.HasKey("VideoId", "ActorId");
-                        j.ToTable("ActorsInVideos");
-                    });
-        });
-
-        modelBuilder.Entity<VideoCredit>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK_VideoCelebrities");
-
-            entity.Property(e => e.Birthdate).HasColumnType("date");
-            entity.Property(e => e.Deathdate).HasColumnType("date");
-            entity.Property(e => e.FullName).HasMaxLength(100);
-            entity.Property(e => e.Sex)
-                .HasMaxLength(1)
-                .IsFixedLength();
-        });
-
-        modelBuilder.Entity<VideosInMedia>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__VideosIn__3214EC07143A6298");
-
-            entity.HasIndex(e => new { e.VideoId, e.MediaTypeId }, "UQ__VideosIn__51C93937FCAF3C89").IsUnique();
-
-            entity.Property(e => e.IsAvaliable)
-                .IsRequired()
-                .HasDefaultValueSql("((1))");
-
-            entity.HasOne(d => d.MediaType).WithMany(p => p.VideosInMedia)
-                .HasForeignKey(d => d.MediaTypeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__VideosInM__Media__55009F39");
-
-            entity.HasOne(d => d.Store).WithMany(p => p.VideosInMedia)
-                .HasForeignKey(d => d.StoreId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_VideosInMedia_StoreLocations");
-
-            entity.HasOne(d => d.Video).WithMany(p => p.VideosInMedia)
-                .HasForeignKey(d => d.VideoId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__VideosInM__Video__540C7B00");
         });
 
         OnModelCreatingPartial(modelBuilder);
