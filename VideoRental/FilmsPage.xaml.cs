@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.EntityFrameworkCore.SqlServer;
+using VideoRental.Models;
 
 namespace VideoRental
 {
@@ -23,6 +25,19 @@ namespace VideoRental
         public FilmsPage()
         {
             InitializeComponent();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            DGridVideos.ItemsSource = VideoRentalDbContext.GetContext().Videos.ToList();
+        }
+
+        private void BtnMoreDetails_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button { DataContext: Video video })
+            {
+                // Создать новое окно MoreDetailsWindow
+            }
         }
     }
 }

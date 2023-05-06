@@ -14,49 +14,43 @@
       TextOptions.TextRenderingMode="Auto"        
       Background="{DynamicResource MaterialDesignPaper}"
       FontFamily="{DynamicResource MaterialDesignFont}"
-      Title="FilmsPage">
-    <!--<Page.Resources>
-        <Style TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}">
-            <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
-            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
-            <Setter Property="GridLinesVisibility" Value="Vertical" />
-            <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource MaterialDesignDivider}" />
-            <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource MaterialDesignDivider}" />
-            <Setter Property="RowBackground" Value="Transparent" />
-            <Setter Property="AlternatingRowBackground" Value="{DynamicResource MaterialDesignListDivider}" />
-            <Setter Property="RowHeight" Value="48" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="SelectionMode" Value="Extended" />
-            <Setter Property="SelectionUnit" Value="FullRow" />
-            <Setter Property="CanUserResizeColumns" Value="False" />
-            <Setter Property="CanUserResizeRows" Value="False" />
-            <Setter Property="CanUserReorderColumns" Value="False" />
-            <Setter Property="CanUserSortColumns" Value="False" />
-            <Setter Property="CanUserAddRows" Value="False" />
-            <Setter Property="AutoGenerateColumns" Value="False" />
-            <Setter Property="ClipboardCopyMode" Value="IncludeHeader" />
-            <Setter Property="Padding" Value="8" />
-        </Style>
-    </Page.Resources>-->
+      Title="FilmsPage"
+      Loaded="Page_Loaded">
     <DockPanel Margin="10">
         <DataGrid x:Name="DGridVideos" Style="{StaticResource MaterialDesignDataGrid}" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="*" Header="Название" Binding="{Binding VideoName}" />
-                <DataGridTextColumn Width="*" Header="Жанр" Binding="{Binding VideoName}" />
-                <DataGridTextColumn Width="*" Header="Автор" Binding="{Binding VideoName}" />
-                <DataGridTextColumn Width="*" Binding="{Binding VideoName}">
+                <DataGridTextColumn Width="2*" Header="Название" Binding="{Binding VideoName}" />
+                <DataGridTextColumn Width="*" Header="Жанр" Binding="{Binding Genre.GenreName}" />
+                <DataGridTextColumn Width="*" Header="Автор" Binding="{Binding Author.ParticipantName}" />
+                <DataGridTextColumn Width="auto" MaxWidth="120" Binding="{Binding LimitAge, StringFormat={}{0}+}">
                     <DataGridTextColumn.Header>
                         <TextBlock TextWrapping="Wrap" Text="Возрастной рейтинг" />
                     </DataGridTextColumn.Header>
+                    
+                    <!-- Расположить числа справа -->
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="*" Header="Цена за 3 дня" Binding="{Binding Price3Days}" />
+                <DataGridTextColumn Width="auto" Header="Цена за 3 дня" Binding="{Binding Price3Days, StringFormat=F2}">
+                    <!-- Расположить числа справа -->
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTemplateColumn Width="auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button
+                               x:Name="BtnMoreDetails"
                                materialDesign:ButtonAssist.CornerRadius="5"
-                               IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                                ToolTip="Посмотреть подробные сведения о фильме" 
+                               Margin="20 0 20 0"
+                               Click="BtnMoreDetails_Click"
                                Content="Подробнее" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
