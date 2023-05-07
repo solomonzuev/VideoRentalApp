@@ -25,7 +25,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <TextBlock Text="{Binding Name}" FontSize="24" FontWeight="Bold" Margin="0 0 0 10" />
+            <TextBlock Text="{Binding Name}" FontSize="24" 
+                       FontWeight="Bold" Margin="0 0 0 10" />
             <Image Grid.Column="1" 
                    VerticalAlignment="Top" 
                    Source="/Resources/no_image_avaliable.png" 

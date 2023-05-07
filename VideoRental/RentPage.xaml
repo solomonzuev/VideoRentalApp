@@ -4,11 +4,85 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VideoRental"
-      mc:Ignorable="d" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="12"
+      TextOptions.TextFormattingMode="Ideal" 
+      TextOptions.TextRenderingMode="Auto"        
+      Background="{DynamicResource MaterialDesignPaper}"
+      FontFamily="{DynamicResource MaterialDesignFont}"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="RentPage">
 
-    <Grid>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <!-- Заголовок страницы -->
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Название фильма" Margin="0 15" FontSize="24" FontWeight="Bold" />
+
+        <!-- Выбор пункта выдачи -->
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Пункт:" VerticalAlignment="Center" />
+        <ComboBox Grid.Row="1" Grid.Column="1" Margin="12" VerticalAlignment="Center" 
+                  materialDesign:HintAssist.Hint="Выберите пункт для выдачи фильма" />
+
+        <!-- Выбор дополнительных параметров -->
+        <Grid Grid.Row="2" Grid.ColumnSpan="2" IsEnabled="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Носитель:" VerticalAlignment="Center" />
+            <ComboBox Grid.Row="0" Grid.Column="1" Margin="12" VerticalAlignment="Center" 
+                      ItemsSource="{Binding MediaTypes}" SelectedItem="{Binding SelectedMediaType}" 
+                      materialDesign:HintAssist.Hint="Выберите носитель" />
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Количество дней:" VerticalAlignment="Center" />
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="12" VerticalAlignment="Center" 
+                     Text="{Binding RentDays, UpdateSourceTrigger=PropertyChanged}" 
+                     materialDesign:HintAssist.Hint="Введите количество дней" />
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Период аренды:" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="2" Grid.Column="1" Margin="12" VerticalAlignment="Center" 
+                       Text="{Binding RentPeriod}" />
+        </Grid>
+
+        <!-- Сумма и кнопка -->
+        <StackPanel Grid.Row="4" Grid.ColumnSpan="2"
+                    VerticalAlignment="Bottom" Margin="0 30">
+            
+        <!-- Сумма -->
+        <TextBlock Grid.Row="4" Grid.ColumnSpan="3"
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Bottom"
+                   FontSize="18" FontWeight="Bold">
+                    <Run Text="Сумма: "/>
+                    <Run Text="{Binding Path=TotalPrice, StringFormat='{}{0:C} руб.'}"/>
+        </TextBlock>
+        
+        <!-- Кнопка "Арендовать" -->
+        <Button x:Name="BtnRent" 
+                Grid.Row="5" Grid.ColumnSpan="2" 
+                Margin="8" Padding="25 5" 
+                HorizontalAlignment="Center" Content="Арендовать"/>
+        </StackPanel>
         
     </Grid>
 </Page>
