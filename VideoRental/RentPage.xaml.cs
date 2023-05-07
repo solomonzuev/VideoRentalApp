@@ -94,7 +94,8 @@ namespace VideoRental
 
                     MessageBox.Show("Ваша заявка на аренду успешно сформирована!",
                         Title, MessageBoxButton.OK, MessageBoxImage.Information);
-                    NavigationManager.GoBack();
+
+                    NavigationManager.Frame.GoBack();
                 }
                 catch (Exception ex)
                 {

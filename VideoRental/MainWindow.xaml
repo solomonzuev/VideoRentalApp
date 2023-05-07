@@ -93,7 +93,6 @@
                             Margin="0,16,0,16"
                             x:Name="LBoxMenu"
                             AutomationProperties.Name="MenuPagesListBox"
-                            SelectedIndex="{Binding SelectedIndex}"
                             SelectedItem="{Binding SelectedMenuItem, UpdateSourceTrigger=PropertyChanged}"
                             ItemsSource="{Binding MenuItems}"
                             Style="{StaticResource MaterialDesignNavigationPrimaryListBox}"

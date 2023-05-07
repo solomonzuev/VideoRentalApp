@@ -7,26 +7,12 @@ namespace VideoRental.Domain
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private int _selectedIndex;
         private MenuItemViewModel _selectedItem;
-        private bool _isFilterPanelOpen;
-
-        public int SelectedIndex
-        {
-            get => _selectedIndex;
-            set => SetProperty(ref _selectedIndex, value);
-        }
 
         public MenuItemViewModel SelectedMenuItem
         {
             get => _selectedItem;
             set => SetProperty(ref _selectedItem, value);
-        }
-
-        public bool IsFilterPanelOpen
-        {
-            get => _isFilterPanelOpen;
-            set => SetProperty(ref _isFilterPanelOpen, value);
         }
 
         public ObservableCollection<MenuItemViewModel> MenuItems { get; }
@@ -41,22 +27,25 @@ namespace VideoRental.Domain
             HomeCommand = new RelayCommand(
             _ =>
             {
-                SelectedIndex = 0;
+                while (NavigationManager.Frame.CanGoBack)
+                {
+                    NavigationManager.Frame.GoBack();
+                }
             });
 
             MovePrevCommand = new RelayCommand(
                 _ =>
                 {
-                    SelectedIndex--;
+                    NavigationManager.Frame.GoBack();
                 },
-                _ => SelectedIndex > 0);
+                _ => NavigationManager.Frame.CanGoBack);
 
             MoveNextCommand = new RelayCommand(
                _ =>
                {
-                   SelectedIndex++;
+                    NavigationManager.Frame.GoForward();
                },
-               _ => SelectedIndex < MenuItems.Count - 1);
+               _ => NavigationManager.Frame.CanGoForward);
         }
 
         public void OpenSelectedPage()

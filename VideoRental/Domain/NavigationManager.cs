@@ -14,13 +14,5 @@ namespace VideoRental.Domain
                 Frame.Navigate(page);
             }
         }
-
-        internal static void GoBack()
-        {
-            if (Frame != null && Frame.CanGoBack)
-            {
-                Frame.GoBack();
-            }
-        }
     }
 }
