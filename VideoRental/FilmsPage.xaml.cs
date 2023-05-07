@@ -55,6 +55,11 @@ namespace VideoRental
         {
             // Выбираем все фильмы, которые доступны хотя бы на одном носителе
             var query = VideoRentalDbContext.GetContext().Films
+                    .Include(f => f.FilmsInMedia)
+                    .Include(f => f.Director)
+                    .Include(f => f.Author)
+                    .Include(f => f.Genre)
+                    .Include(f => f.Actors)
                     .Where(f => f.FilmsInMedia.Any(fm => fm.IsAvaliable == true));
 
             // Фильтрация по введённому тексту
@@ -71,11 +76,7 @@ namespace VideoRental
             }
 
             // Подключаем все необходимые сущности и возвращаем результат
-            return await query
-                .Include(f => f.Author)
-                .Include(f => f.Genre)
-                .Include(f => f.Actors)
-                .ToListAsync();
+            return await query.ToListAsync();
         }
 
         private void TextToSearch_KeyDown(object sender, KeyEventArgs e)

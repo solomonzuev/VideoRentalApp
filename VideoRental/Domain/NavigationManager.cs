@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 
 namespace VideoRental.Domain
 {
@@ -11,6 +12,14 @@ namespace VideoRental.Domain
             if (Frame != null && page != null)
             {
                 Frame.Navigate(page);
+            }
+        }
+
+        internal static void GoBack()
+        {
+            if (Frame != null && Frame.CanGoBack)
+            {
+                Frame.GoBack();
             }
         }
     }

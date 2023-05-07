@@ -14,8 +14,8 @@
       Background="{DynamicResource MaterialDesignPaper}"
       FontFamily="{DynamicResource MaterialDesignFont}"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="RentPage">
-
+      Title="Аренда фильма"
+      Loaded="Page_Loaded">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -30,15 +30,16 @@
         </Grid.ColumnDefinitions>
         
         <!-- Заголовок страницы -->
-        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Название фильма" Margin="0 15" FontSize="24" FontWeight="Bold" />
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Film.Name}" Margin="0 15" FontSize="24" FontWeight="Bold" />
 
         <!-- Выбор пункта выдачи -->
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Пункт:" VerticalAlignment="Center" />
-        <ComboBox Grid.Row="1" Grid.Column="1" Margin="12" VerticalAlignment="Center" 
-                  materialDesign:HintAssist.Hint="Выберите пункт для выдачи фильма" />
+        <ComboBox x:Name="CBoxStoreLocations" Grid.Row="1" Grid.Column="1" Margin="12" VerticalAlignment="Center" 
+                  materialDesign:HintAssist.Hint="Выберите пункт для выдачи фильма" DisplayMemberPath="Address" 
+                  SelectionChanged="CBoxStoreLocations_SelectionChanged" />
 
         <!-- Выбор дополнительных параметров -->
-        <Grid Grid.Row="2" Grid.ColumnSpan="2" IsEnabled="False">
+        <Grid x:Name="GridExtraParams" Grid.Row="2" Grid.ColumnSpan="2" Visibility="Hidden">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -50,18 +51,32 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Носитель:" VerticalAlignment="Center" />
-            <ComboBox Grid.Row="0" Grid.Column="1" Margin="12" VerticalAlignment="Center" 
-                      ItemsSource="{Binding MediaTypes}" SelectedItem="{Binding SelectedMediaType}" 
-                      materialDesign:HintAssist.Hint="Выберите носитель" />
+            <ComboBox x:Name="CBoxMediaTypes" Grid.Row="0" Grid.Column="1" Margin="12" VerticalAlignment="Center" 
+                      materialDesign:HintAssist.Hint="Выберите носитель" DisplayMemberPath="Name" />
 
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Количество дней:" VerticalAlignment="Center" />
-            <TextBox Grid.Row="1" Grid.Column="1" Margin="12" VerticalAlignment="Center" 
-                     Text="{Binding RentDays, UpdateSourceTrigger=PropertyChanged}" 
-                     materialDesign:HintAssist.Hint="Введите количество дней" />
 
+            <!-- Количество дней ввод данных -->
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Margin="12">
+                <TextBlock Text="3" Margin="0 0 5 0" VerticalAlignment="Center" />
+                <TextBlock Text="X" VerticalAlignment="Center" />
+                <TextBox x:Name="TBoxRentDays"
+                    Grid.Row="1" Grid.Column="1" 
+                    Margin="5 0" Width="30"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold"
+                    HorizontalAlignment="Left"
+                    HorizontalContentAlignment="Center"
+                    MaxLength="3"
+                    Text="{Binding RentCount, UpdateSourceTrigger=PropertyChanged}"
+                    PreviewTextInput="TBoxRentDays_PreviewTextInput"
+                    TextChanged="TBoxRentDays_TextChanged"/>
+                <TextBlock VerticalAlignment="Center" Text="раз" />
+            </StackPanel>
+
+            <!-- Показывает выбранный период аренды -->
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Период аренды:" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="2" Grid.Column="1" Margin="12" VerticalAlignment="Center" 
-                       Text="{Binding RentPeriod}" />
+            <TextBlock x:Name="TBlockRentPeriod" Grid.Row="2" Grid.Column="1" Margin="12" VerticalAlignment="Center" />
         </Grid>
 
         <!-- Сумма и кнопка -->
@@ -69,19 +84,17 @@
                     VerticalAlignment="Bottom" Margin="0 30">
             
         <!-- Сумма -->
-        <TextBlock Grid.Row="4" Grid.ColumnSpan="3"
+            <TextBlock Grid.Row="4" Grid.ColumnSpan="3"
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Bottom"
-                   FontSize="18" FontWeight="Bold">
-                    <Run Text="Сумма: "/>
-                    <Run Text="{Binding Path=TotalPrice, StringFormat='{}{0:C} руб.'}"/>
-        </TextBlock>
-        
-        <!-- Кнопка "Арендовать" -->
-        <Button x:Name="BtnRent" 
+                   FontSize="18" FontWeight="Bold"
+                   Text="{Binding TotalPrice, StringFormat='{} Сумма {0:F2} руб.'}" />
+
+            <!-- Кнопка "Арендовать" -->
+        <Button x:Name="BtnRent"
                 Grid.Row="5" Grid.ColumnSpan="2" 
                 Margin="8" Padding="25 5" 
-                HorizontalAlignment="Center" Content="Арендовать"/>
+                HorizontalAlignment="Center" Content="Арендовать" Click="BtnRent_Click"/>
         </StackPanel>
         
     </Grid>

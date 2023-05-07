@@ -29,8 +29,8 @@ namespace VideoRental
 
         private void BtnRent_Click(object sender, RoutedEventArgs e)
         {
-            NavigationManager.Navigate(new RentPage(DataContext as Film));
-            this.Close();
+            NavigationManager.Navigate(new RentPage(null, DataContext as Film));
+            Close();
         }
     }
 }
