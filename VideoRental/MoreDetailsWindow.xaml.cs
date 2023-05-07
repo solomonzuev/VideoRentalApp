@@ -21,15 +21,18 @@ namespace VideoRental
     /// </summary>
     public partial class MoreDetailsWindow : Window
     {
+        private readonly Film _selectedFilm;
+
         public MoreDetailsWindow(Film selectedFilm)
         {
             InitializeComponent();
-            DataContext = selectedFilm;
+            _selectedFilm = selectedFilm;
+            DataContext = _selectedFilm;
         }
 
         private void BtnRent_Click(object sender, RoutedEventArgs e)
         {
-            NavigationManager.Navigate(new RentPage(null, DataContext as Film));
+            Manager.MainFrame.Navigate(new RentPage(_selectedFilm));
             Close();
         }
     }

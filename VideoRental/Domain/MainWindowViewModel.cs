@@ -5,6 +5,13 @@ using System.Windows.Input;
 
 namespace VideoRental.Domain
 {
+    /*
+        TODO:
+        1. Решить проблему загрузки аутентификации самой первой
+        2. Решить проблему с передачей Customer в классы
+        3. Решить проблему с меню при аутентификации
+     */
+
     public class MainWindowViewModel : ViewModelBase
     {
         private MenuItemViewModel _selectedItem;
@@ -27,32 +34,32 @@ namespace VideoRental.Domain
             HomeCommand = new RelayCommand(
             _ =>
             {
-                while (NavigationManager.Frame.CanGoBack)
+                while (Manager.MainFrame.CanGoBack)
                 {
-                    NavigationManager.Frame.GoBack();
+                    Manager.MainFrame.GoBack();
                 }
             });
 
             MovePrevCommand = new RelayCommand(
                 _ =>
                 {
-                    NavigationManager.Frame.GoBack();
+                    Manager.MainFrame.GoBack();
                 },
-                _ => NavigationManager.Frame.CanGoBack);
+                _ => Manager.MainFrame.CanGoBack);
 
             MoveNextCommand = new RelayCommand(
                _ =>
                {
-                    NavigationManager.Frame.GoForward();
+                    Manager.MainFrame.GoForward();
                },
-               _ => NavigationManager.Frame.CanGoForward);
+               _ => Manager.MainFrame.CanGoForward);
         }
 
         public void OpenSelectedPage()
         {
             if (SelectedMenuItem != null)
             {
-                NavigationManager.Navigate(SelectedMenuItem.Page);
+                Manager.MainFrame.Navigate(SelectedMenuItem.Page);
             }
         }
     }

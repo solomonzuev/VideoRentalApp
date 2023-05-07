@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VideoRental.Models;
 
@@ -38,9 +39,9 @@ public partial class Transaction : INotifyPropertyChanged
     public virtual Film Film { get; set; } = null!;
 
     public virtual FilmsInMedia VideosInMedia { get; set; } = null!;
-
+    
+    [NotMapped]
     public int RentCount { get; set; } = 1;
-
 
     public event PropertyChangedEventHandler? PropertyChanged;
 

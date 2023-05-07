@@ -25,13 +25,13 @@ namespace VideoRental
     {
         private const int RENT_LENGTH_DAYS = 3;
         private readonly Transaction _transaction;
-        public RentPage(Customer currentCustomer, Film selectedFilm)
+        public RentPage(Film selectedFilm)
         {
             InitializeComponent();
 
             _transaction = new Transaction
             {
-                Customer = currentCustomer,
+                Customer = Manager.CurrentCustomer,
                 Film = selectedFilm,
             };
 
@@ -41,14 +41,13 @@ namespace VideoRental
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             CBoxStoreLocations.ItemsSource = await VideoRentalDbContext.GetContext().FilmsInMedia
+                .Include(fm => fm.MediaType)
                 .Include(fm => fm.Film)
                 .Include(fm => fm.Store)
                 .Where(fm => fm.Film == _transaction.Film && fm.IsAvaliable == true)
                 .Select(fm => fm.Store)
                 .Distinct()
                 .ToListAsync();
-
-            CBoxMediaTypes.ItemsSource = await VideoRentalDbContext.GetContext().MediaTypes.ToListAsync();
         }
 
         private void TBoxRentDays_TextChanged(object sender, TextChangedEventArgs e)
@@ -71,11 +70,23 @@ namespace VideoRental
             TBlockRentPeriod.Text = $"с {startDate:dd.MM.yyyy} по {endDate:dd.MM.yyyy}";
         }
 
-        private void CBoxStoreLocations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void CBoxStoreLocations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (CBoxStoreLocations.SelectedItem != null)
             {
                 GridExtraParams.Visibility = Visibility.Visible;
+
+                // Получаем все носители, на которых доступен данный фильм по данному адресу
+                var selectedStore = CBoxStoreLocations.SelectedItem as StoreLocation;
+
+                CBoxMediaTypes.ItemsSource = await VideoRentalDbContext.GetContext().FilmsInMedia
+                    .Include(fm => fm.MediaType)
+                    .Where(fm => fm.IsAvaliable == true 
+                        && fm.Film == _transaction.Film 
+                        && fm.Store.Address == selectedStore.Address)
+                    .Select(fm => fm.MediaType)
+                    .Distinct()
+                    .ToListAsync();
             }
             else
             {
@@ -83,19 +94,27 @@ namespace VideoRental
             }
         }
 
-        private void BtnRent_Click(object sender, RoutedEventArgs e)
+        private async void BtnRent_Click(object sender, RoutedEventArgs e)
         {
             if (IsTransactionValid())
             {
+                var selectedMediaType = CBoxMediaTypes.SelectedItem as MediaType;
+                var selectedStore = CBoxStoreLocations.SelectedItem as StoreLocation;
+
+                // Пролучаем фильм на выбранном носителе по выбранному адресу
+                _transaction.VideosInMedia = _transaction.Film.FilmsInMedia
+                    .First(fm => fm.IsAvaliable == true
+                        && fm.MediaType.Name == selectedMediaType.Name
+                        && fm.Store.Address == selectedStore.Address);
                 try
                 {
                     VideoRentalDbContext.GetContext().Transactions.Add(_transaction);
-                    VideoRentalDbContext.GetContext().SaveChanges();
+                    await VideoRentalDbContext.GetContext().SaveChangesAsync();
 
                     MessageBox.Show("Ваша заявка на аренду успешно сформирована!",
                         Title, MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    NavigationManager.Frame.GoBack();
+                    Manager.MainFrame.GoBack();
                 }
                 catch (Exception ex)
                 {
@@ -143,13 +162,14 @@ namespace VideoRental
         {
             if (string.IsNullOrWhiteSpace(TBoxRentDays.Text))
             {
+                // Ставим 0, если текст пустой
                 e.Handled = true;
                 TBoxRentDays.Text = "0";
             }
 
             if (!char.IsDigit(e.Text[0]))
             {
-                // отменяем ввод символа, если это не цифра
+                // Отменяем ввод символа, если это не цифра
                 e.Handled = true;
             }
         }
