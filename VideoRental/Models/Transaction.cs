@@ -11,8 +11,6 @@ public partial class Transaction
 
     public int CustomerId { get; set; }
 
-    public int EmployeeId { get; set; }
-
     public DateTime StartDate { get; set; }
 
     public DateTime EndDate { get; set; }
@@ -21,9 +19,11 @@ public partial class Transaction
 
     public int VideosInMediaId { get; set; }
 
+    public decimal TotalPrice { get; set; }
+
     public virtual Customer Customer { get; set; } = null!;
 
-    public virtual Employee Employee { get; set; } = null!;
-
     public virtual Film Film { get; set; } = null!;
+
+    public virtual FilmsInMedia VideosInMedia { get; set; } = null!;
 }

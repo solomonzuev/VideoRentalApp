@@ -22,4 +22,6 @@ public partial class FilmsInMedia
     public virtual MediaType MediaType { get; set; } = null!;
 
     public virtual StoreLocation Store { get; set; } = null!;
+
+    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 }

@@ -18,7 +18,7 @@ public partial class VideoRentalDbContext : DbContext
     {
     }
 
-    public static VideoRentalDbContext GetContext() 
+    public static VideoRentalDbContext GetContext()
         => _context ??= new VideoRentalDbContext();
 
     public virtual DbSet<Customer> Customers { get; set; }
@@ -48,6 +48,7 @@ public partial class VideoRentalDbContext : DbContext
         var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         optionsBuilder.UseSqlServer(connectionString);
     }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Customer>(entity =>
@@ -198,21 +199,22 @@ public partial class VideoRentalDbContext : DbContext
             entity.Property(e => e.StartDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.TotalPrice).HasColumnType("money");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Transactions_Customers");
 
-            entity.HasOne(d => d.Employee).WithMany(p => p.Transactions)
-                .HasForeignKey(d => d.EmployeeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Transactions_Employees");
-
             entity.HasOne(d => d.Film).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.FilmId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Transactions_Videos");
+
+            entity.HasOne(d => d.VideosInMedia).WithMany(p => p.Transactions)
+                .HasForeignKey(d => d.VideosInMediaId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Transactions_FilmsInMedia");
         });
 
         modelBuilder.Entity<User>(entity =>
