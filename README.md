@@ -15,7 +15,6 @@ This is a movie rental system that allows users to browse, search, and rent movi
 	3. Enter payment information (conditional payment)
 	4. Receive information on where to pick up the movie after payment
 		1. Pickup location address
-		2. Link to view the movie
 5. View rented movies
 6. View list of all movies (operator)
 	1. Ability to edit movie information
