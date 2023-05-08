@@ -77,10 +77,11 @@
                         <!-- ФИО и кнопка выхода из аккаунта -->
                         <StackPanel x:Name="SPanelFullNameAndLogout" Orientation="Horizontal" HorizontalAlignment="Right">
                             <TextBlock
+                                x:Name="TBlockFullName"
                                 Margin="15 0"
-                            AutomationProperties.Name="{Binding FullName}"
-                            VerticalAlignment="Center"
-                            Text="{Binding FullName}" />
+                                AutomationProperties.Name="{Binding FullName}"
+                                VerticalAlignment="Center"
+                                Text="{Binding FullName}" />
 
                             <Button
                                 x:Name="BtnLogout"

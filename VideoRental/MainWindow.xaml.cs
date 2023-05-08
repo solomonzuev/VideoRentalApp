@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using VideoRental.Domain;
 
 namespace VideoRental
@@ -26,8 +27,13 @@ namespace VideoRental
                 new MenuItemViewModel("Арендованные фильмы", typeof(RentedFilmsPage)),
             });
 
+            SetCustomerFullName();
+        }
+
+        private void SetCustomerFullName()
+        {
             // Устанавливаем контекст для панели с ФИО и кнопкой выхода
-            SPanelFullNameAndLogout.DataContext = Manager.CurrentCustomer;
+            TBlockFullName.DataContext = Manager.CurrentCustomer;
         }
 
         private void LBoxMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)

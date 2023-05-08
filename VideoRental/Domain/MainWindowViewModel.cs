@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace VideoRental.Domain
@@ -29,12 +30,10 @@ namespace VideoRental.Domain
             HomeCommand = new RelayCommand(
             _ =>
             {
-                while (Manager.MainFrame.CanGoBack)
-                {
-                    Manager.MainFrame.GoBack();
-                }
-
                 SelectFirstIfExists();
+
+                // Полностью очищаем историю элемента MainFrame
+                while (Manager.MainFrame.NavigationService.RemoveBackEntry() != null) ;
             });
 
             MovePrevCommand = new RelayCommand(

@@ -157,6 +157,13 @@ namespace VideoRental
                 return false;
             }
 
+            if (_transaction.Customer.InBlackList)
+            {
+                MessageBox.Show("Вы находитесь в чёрном списке и не можете арендовать фильмы. Для решения проблемы обратитесь в ближайший пункт нашего магазина!",
+                    Title, MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
             return true;
         }
 

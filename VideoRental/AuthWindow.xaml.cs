@@ -51,7 +51,7 @@ namespace VideoRental
 
                         var mainWindow = new MainWindow();
                         mainWindow.Show();
-                        
+
                         Close();
                     }
                 }
