@@ -41,10 +41,9 @@ namespace VideoRental
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             CBoxStoreLocations.ItemsSource = await VideoRentalDbContext.GetContext().FilmsInMedia
-                .Include(fm => fm.MediaType)
-                .Include(fm => fm.Film)
-                .Include(fm => fm.Store)
                 .Where(fm => fm.Film == _transaction.Film && fm.IsAvaliable == true)
+                .Include(fm => fm.MediaType)
+                .Include(fm => fm.Store)
                 .Select(fm => fm.Store)
                 .Distinct()
                 .ToListAsync();
@@ -101,11 +100,14 @@ namespace VideoRental
                 var selectedMediaType = CBoxMediaTypes.SelectedItem as MediaType;
                 var selectedStore = CBoxStoreLocations.SelectedItem as StoreLocation;
 
-                // Пролучаем фильм на выбранном носителе по выбранному адресу
-                _transaction.VideosInMedia = _transaction.Film.FilmsInMedia
-                    .First(fm => fm.IsAvaliable == true
-                        && fm.MediaType.Name == selectedMediaType.Name
-                        && fm.Store.Address == selectedStore.Address);
+                // Получаем фильм на выбранном носителе по выбранному адресу
+                _transaction.VideosInMedia = await VideoRentalDbContext.GetContext()
+                    .FilmsInMedia
+                    .Where(fm => fm.Film == _transaction.Film)
+                    .FirstAsync(fm =>
+                        fm.MediaType.Name == selectedMediaType.Name &&
+                        fm.Store.Address == selectedStore.Address);
+
                 try
                 {
                     VideoRentalDbContext.GetContext().Transactions.Add(_transaction);

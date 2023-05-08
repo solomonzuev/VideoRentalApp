@@ -5,13 +5,6 @@ using System.Windows.Input;
 
 namespace VideoRental.Domain
 {
-    /*
-        TODO:
-        1. Решить проблему загрузки аутентификации самой первой
-        2. Решить проблему с передачей Customer в классы
-        3. Решить проблему с меню при аутентификации
-     */
-
     public class MainWindowViewModel : ViewModelBase
     {
         private MenuItemViewModel _selectedItem;
@@ -31,6 +24,8 @@ namespace VideoRental.Domain
         {
             MenuItems = menuItems;
 
+            SelectFirstIfExists();
+
             HomeCommand = new RelayCommand(
             _ =>
             {
@@ -38,6 +33,8 @@ namespace VideoRental.Domain
                 {
                     Manager.MainFrame.GoBack();
                 }
+
+                SelectFirstIfExists();
             });
 
             MovePrevCommand = new RelayCommand(
@@ -60,6 +57,14 @@ namespace VideoRental.Domain
             if (SelectedMenuItem != null)
             {
                 Manager.MainFrame.Navigate(SelectedMenuItem.Page);
+            }
+        }
+
+        private void SelectFirstIfExists()
+        {
+            if (MenuItems.Count > 0)
+            {
+                SelectedMenuItem = MenuItems[0];
             }
         }
     }

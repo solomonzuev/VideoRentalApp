@@ -16,16 +16,26 @@
         Title="Регистрация и вход" Height="450" Width="800">
     <StackPanel Grid.Row="1" Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
         <!-- Заголовок страницы -->
-        <TextBlock Text="Вход" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
-
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock x:Name="TBlockHeader" Text="Вход" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+            <ToggleButton x:Name="TBtnLoginRegister" 
+                          VerticalAlignment="Top" Margin="12 8" 
+                          Checked="TBtnLoginRegister_Checked"
+                          Unchecked="TBtnLoginRegister_Unchecked"></ToggleButton>
+        </StackPanel>
+        
         <!-- Поля для ввода -->
-        <TextBox x:Name="TBoxEmail" Width="200" Margin="0,10,0,0" materialDesign:HintAssist.Hint="Эл. почта"/>
-        <PasswordBox x:Name="PBoxPassword" Width="200" Margin="0,10,0,0" materialDesign:HintAssist.Hint="Пароль"/>
+        <StackPanel x:Name="SPanelRegisterFields" Visibility="Collapsed">
+            <TextBox x:Name="TBoxFullName" Width="200" Margin="0,10,0,0" MaxLength="200" materialDesign:HintAssist.Hint="ФИО"/>
+            <TextBox x:Name="TBoxPhone" Width="200" Margin="0,10,0,0" MaxLength="12" materialDesign:HintAssist.Hint="Номер телефона"/>
+        </StackPanel>
+        <TextBox x:Name="TBoxEmail" Width="200" Margin="0,10,0,0" MaxLength="100" materialDesign:HintAssist.Hint="Эл. почта"/>
+        <PasswordBox x:Name="PBoxPassword" Width="200" Margin="0,10,0,0" MaxLength="100" materialDesign:HintAssist.Hint="Пароль"/>
 
         <!-- Кнопки -->
-        <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Center">
-            <Button x:Name="BtnLogin" Width="100" Content="Войти" Click="BtnLogin_Click" />
-            <Button x:Name="BtnRegister" Content="Регистрация" Margin="10,0,0,0" />
+        <StackPanel Margin="0 20 0 10" HorizontalAlignment="Center">
+            <Button x:Name="BtnLogin" Width="120" Content="Войти" Click="BtnLogin_Click" />
+            <Button x:Name="BtnRegister" Width="120" Visibility="Collapsed" Content="Регистрация" Click="BtnRegister_Click" />
         </StackPanel>
     </StackPanel>
 </Window>

@@ -19,17 +19,15 @@ namespace VideoRental
         {
             Manager.MainFrame = MainFrame;
 
-            var firstMenuItem = new MenuItemViewModel("Фильмы для аренды", typeof(FilmsPage));
-            var secondMenuItem = new MenuItemViewModel("Арендованные фильмы", null);
-
-            var mainWindowViewModel = new MainWindowViewModel(new()
+            // Устанавливаем контекст окна
+            DataContext = new MainWindowViewModel(new()
             {
-               firstMenuItem, secondMenuItem
+                new MenuItemViewModel("Фильмы для аренды", typeof(FilmsPage)),
+                new MenuItemViewModel("Арендованные фильмы", typeof(RentedFilmsPage)),
             });
 
-            mainWindowViewModel.SelectedMenuItem = firstMenuItem;
-
-            DataContext = mainWindowViewModel;
+            // Устанавливаем контекст для панели с ФИО и кнопкой выхода
+            SPanelFullNameAndLogout.DataContext = Manager.CurrentCustomer;
         }
 
         private void LBoxMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -44,6 +42,13 @@ namespace VideoRental
         {
             DrawerHost.OpenDrawerCommand.Execute(null, null);
             MenuToggleButton.IsChecked = false;
+        }
+
+        private void BtnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            var authWindow = new AuthWindow();
+            authWindow.Show();
+            Close();
         }
     }
 }

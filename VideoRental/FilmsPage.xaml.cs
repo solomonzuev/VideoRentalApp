@@ -65,12 +65,12 @@ namespace VideoRental
             // Фильтрация по введённому тексту
             if (!string.IsNullOrWhiteSpace(TextToSearch.Text))
             {
-                string textToSearch = TextToSearch.Text.ToUpper();
+                string textToSearch = TextToSearch.Text;
 
                 query = query.Where(f => f.FilmsInMedia.Any(fm => fm.IsAvaliable == true))
-                    .Where(f => f.Name.ToUpper().Contains(textToSearch)
-                        || f.Genre.Name.ToUpper().Contains(textToSearch)
-                        || f.Author.FullName.ToUpper().Contains(textToSearch)
+                    .Where(f => f.Name.Contains(textToSearch)
+                        || f.Genre.Name.Contains(textToSearch)
+                        || f.Author.FullName.Contains(textToSearch)
                         || f.LimitAge.ToString().Contains(textToSearch)
                         || f.Price3Days.ToString().Contains(textToSearch));
             }

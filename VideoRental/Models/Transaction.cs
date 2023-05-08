@@ -42,6 +42,7 @@ public partial class Transaction : INotifyPropertyChanged
     
     [NotMapped]
     public int RentCount { get; set; } = 1;
+    public string StatusText => IsIssuied ? "Выдана" : "Не выдана";
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
