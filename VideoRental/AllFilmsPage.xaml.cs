@@ -2,17 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using VideoRental.Domain;
 using VideoRental.Models;
 
 namespace VideoRental
@@ -31,12 +25,12 @@ namespace VideoRental
         {
             var selectedItems = DGridFilms.SelectedItems.Cast<Film>().ToList();
 
-            if (selectedItems.Count > 0 )
+            if (selectedItems.Count > 0)
             {
-                var isConfirmRemoving = 
-                    MessageBox.Show("Вы уверены, что хотите удалить выбранные {selectedItems.Count} элементов?", 
+                var isConfirmRemoving =
+                    MessageBox.Show($"Вы уверены, что хотите удалить выбранные {selectedItems.Count} элементов?",
                         "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            
+
                 if (isConfirmRemoving == MessageBoxResult.Yes)
                 {
                     try
@@ -56,7 +50,9 @@ namespace VideoRental
         private async Task ReloadEntriesAsync()
         {
             // Обновляем сущности
-            foreach (var entry in VideoRentalDbContext.GetContext().ChangeTracker.Entries())
+            var entries = VideoRentalDbContext.GetContext().ChangeTracker.Entries().ToList();
+
+            foreach (var entry in entries)
             {
                 await entry.ReloadAsync();
             }
@@ -65,12 +61,7 @@ namespace VideoRental
         private async Task<List<Film>> RefreshDataGridAsync()
         {
             // Формируем запрос на получение сущностей из БД
-            IQueryable<Film> query = VideoRentalDbContext.GetContext().Films
-                    .Include(f => f.FilmsInMedia)
-                    .Include(f => f.Director)
-                    .Include(f => f.Author)
-                    .Include(f => f.Genre)
-                    .Include(f => f.Actors);
+            IQueryable<Film> query = VideoRentalDbContext.GetContext().Films;
 
             // Фильтруем сущности при необходимости
             if (!string.IsNullOrWhiteSpace(TextToSearch.Text))
@@ -85,7 +76,13 @@ namespace VideoRental
             }
 
             // Возвращаем результат
-            return await query.ToListAsync();
+            return await query
+                    .Include(f => f.FilmsInMedia)
+                    .Include(f => f.Director)
+                    .Include(f => f.Author)
+                    .Include(f => f.Genre)
+                    .Include(f => f.Actors)
+                    .ToListAsync();
         }
 
         private async void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -108,6 +105,19 @@ namespace VideoRental
             {
                 BtnSearch_Click(null, null);
             }
+        }
+
+        private void BtnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button { DataContext: Film selectedFilm })
+            {
+                Manager.MainFrame.Navigate(new AddEditFilmPage(selectedFilm));
+            }
+        }
+
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditFilmPage());
         }
     }
 }

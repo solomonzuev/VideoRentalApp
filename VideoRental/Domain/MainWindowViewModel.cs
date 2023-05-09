@@ -33,7 +33,7 @@ namespace VideoRental.Domain
                 SelectFirstIfExists();
 
                 // Полностью очищаем историю элемента MainFrame
-                while (Manager.MainFrame.NavigationService.RemoveBackEntry() != null) ;
+                while (Manager.MainFrame.RemoveBackEntry() != null) ;
             });
 
             MovePrevCommand = new RelayCommand(

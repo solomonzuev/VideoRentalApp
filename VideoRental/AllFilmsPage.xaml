@@ -88,11 +88,12 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button
-                               x:Name="BtnMoreDetails"
-                               materialDesign:ButtonAssist.CornerRadius="5"
-                               ToolTip="Посмотреть подробные сведения о фильме" 
-                               Margin="20 0 20 0"
-                               Content="Подробнее" />
+                                    x:Name="BtnEdit"
+                                    materialDesign:ButtonAssist.CornerRadius="5"
+                                    ToolTip="Редактировать фильм" 
+                                    Margin="20 0 20 0"
+                                    Content="Редактировать"
+                                    Click="BtnEdit_Click" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -108,13 +109,11 @@
         <!-- Кнопки "Удалить" и "Добавить" -->
         <Button x:Name="BtnDelete" Grid.Row="2" HorizontalAlignment="Left"
                 materialDesign:ButtonAssist.CornerRadius="5"
-                Width="120"
-                MaxWidth="150"
+                Width="150"
                 VerticalAlignment="Center" Content="Удалить" Margin="10 5 10 0" Click="BtnDelete_Click"/>
         <Button x:Name="BtnAdd" Grid.Row="2" HorizontalAlignment="Right"
                 materialDesign:ButtonAssist.CornerRadius="5"
-                Width="120"
-                MaxWidth="150"
-                VerticalAlignment="Center" Content="Добавить" Margin="10 5 10 0"/>
+                Width="150"
+                VerticalAlignment="Center" Content="Добавить" Margin="10 5 10 0" Click="BtnAdd_Click"/>
     </Grid>
 </Page>
