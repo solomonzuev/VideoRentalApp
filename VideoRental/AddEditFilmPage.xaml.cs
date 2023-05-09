@@ -15,11 +15,11 @@ namespace VideoRental
     {
         private const int MIN_RELEASE_YEAR = 1900;
         private readonly Film _film;
-        public AddEditFilmPage(Film? selectedFilm = null)
+        public AddEditFilmPage(Film? film = null)
         {
             InitializeComponent();
 
-            _film = selectedFilm ?? new Film();
+            _film = film ?? new Film();
             DataContext = _film;
         }
 

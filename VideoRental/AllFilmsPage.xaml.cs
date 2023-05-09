@@ -21,7 +21,7 @@ namespace VideoRental
             InitializeComponent();
         }
 
-        private async void BtnDelete_Click(object sender, RoutedEventArgs e)
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             var selectedItems = DGridFilms.SelectedItems.Cast<Film>().ToList();
 
@@ -36,8 +36,8 @@ namespace VideoRental
                     try
                     {
                         VideoRentalDbContext.GetContext().Films.RemoveRange(selectedItems);
-                        await VideoRentalDbContext.GetContext().SaveChangesAsync();
-                        DGridFilms.ItemsSource = await RefreshDataGridAsync();
+                        VideoRentalDbContext.GetContext().SaveChanges();
+                        DGridFilms.ItemsSource = RefreshDataGrid();
                     }
                     catch (Exception ex)
                     {
@@ -47,18 +47,18 @@ namespace VideoRental
             }
         }
 
-        private async Task ReloadEntriesAsync()
+        private void ReloadEntries()
         {
             // Обновляем сущности
             var entries = VideoRentalDbContext.GetContext().ChangeTracker.Entries().ToList();
 
             foreach (var entry in entries)
             {
-                await entry.ReloadAsync();
+                entry.Reload();
             }
         }
 
-        private async Task<List<Film>> RefreshDataGridAsync()
+        private List<Film> RefreshDataGrid()
         {
             // Формируем запрос на получение сущностей из БД
             IQueryable<Film> query = VideoRentalDbContext.GetContext().Films;
@@ -76,27 +76,27 @@ namespace VideoRental
             }
 
             // Возвращаем результат
-            return await query
+            return query
                     .Include(f => f.FilmsInMedia)
                     .Include(f => f.Director)
                     .Include(f => f.Author)
                     .Include(f => f.Genre)
                     .Include(f => f.Actors)
-                    .ToListAsync();
+                    .ToList();
         }
 
-        private async void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (Visibility == Visibility.Visible)
             {
-                await ReloadEntriesAsync();
-                DGridFilms.ItemsSource = await RefreshDataGridAsync();
+                ReloadEntries();
+                DGridFilms.ItemsSource = RefreshDataGrid();
             }
         }
 
-        private async void BtnSearch_Click(object sender, RoutedEventArgs e)
+        private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-            DGridFilms.ItemsSource = await RefreshDataGridAsync();
+            DGridFilms.ItemsSource = RefreshDataGrid();
         }
 
         private void TextToSearch_KeyDown(object sender, KeyEventArgs e)
@@ -109,9 +109,9 @@ namespace VideoRental
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button { DataContext: Film selectedFilm })
+            if (sender is Button { DataContext: Film film })
             {
-                Manager.MainFrame.Navigate(new AddEditFilmPage(selectedFilm));
+                Manager.MainFrame.Navigate(new AddEditFilmPage(film));
             }
         }
 

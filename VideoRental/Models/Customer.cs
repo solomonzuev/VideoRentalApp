@@ -18,4 +18,7 @@ public partial class Customer
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 
     public virtual User? User { get; set; }
+
+
+    public string InBlackListText => InBlackList ? "Да" : "Нет";
 }

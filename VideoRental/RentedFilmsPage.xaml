@@ -75,6 +75,21 @@
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <DataGridTextColumn Width="*" Header="Статус" Binding="{Binding StatusText}" />
+                
+                <!-- Колонка подтвердить выдачу/прием, только для работников -->
+                <DataGridTemplateColumn x:Name="DGColumnStatus" Visibility="Collapsed">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                               x:Name="BtnChangeStatus"
+                               materialDesign:ButtonAssist.CornerRadius="5"
+                               ToolTip="Подтвердить выдачу\приём обратно арендованного фильма" 
+                               Margin="20 0 20 0"
+                               Click="BtnChangeStatus_Click"
+                               Content="{Binding StatusButtonText, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </StackPanel>

@@ -41,7 +41,8 @@ namespace VideoRental
             {
                 DataContext = new MainWindowViewModel(new()
                 {
-                    new MenuItemViewModel("Все фильмы", typeof(AllFilmsPage))
+                    new MenuItemViewModel("Фильмы", typeof(AllFilmsPage)),
+                    new MenuItemViewModel("Клиенты", typeof(CustomersPage)),
                 });
             }
         }
