@@ -32,38 +32,84 @@ namespace VideoRental
         {
             if (IsUserValid())
             {
+                var role = ComboRoles.SelectedItem.ToString();
+                bool isLogin = false;
+
                 try
                 {
-                    // Сравнение строк в базе данных с учётом регистра
-                    var customer = await VideoRentalDbContext.GetContext().Customers
-                        .SingleOrDefaultAsync(c => c.User != null
-                            && EF.Functions.Collate(c.User.Email, "Latin1_General_CS_AS") == TBoxEmail.Text
-                            && EF.Functions.Collate(c.User.Password, "Latin1_General_CS_AS") == PBoxPassword.Password);
-
-
-                    if (customer == null)
+                    if (role == "Клиент")
                     {
-                        MessageBox.Show("Клиент с такой почтой и паролем не найден!", Title, MessageBoxButton.OK, MessageBoxImage.Warning);
+                        isLogin = await AuthCustomerAsync();
                     }
-                    else
+                    else if (role == "Работник")
                     {
-                        Manager.CurrentCustomer = customer;
-
-                        var mainWindow = new MainWindow();
-                        mainWindow.Show();
-
-                        Close();
+                        isLogin = await AuthEmployeeAsync();
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+
+                // Проверяем, выполнен ли вход или нет
+                if (isLogin)
+                {
+                    var mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show($"{role} с указанной почтой и паролем не найден!", Title, MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+
             }
+        }
+
+        private async Task<bool> AuthEmployeeAsync()
+        {
+            // Сравнение строк в базе данных с учётом регистра
+            var employee = await VideoRentalDbContext.GetContext().Employees
+                .SingleOrDefaultAsync(c => c.User != null
+                    && EF.Functions.Collate(c.User.Email, "Latin1_General_CS_AS") == TBoxEmail.Text
+                    && EF.Functions.Collate(c.User.Password, "Latin1_General_CS_AS") == PBoxPassword.Password);
+
+
+            if (employee != null)
+            {
+                Manager.CurrentEmployee = employee;
+                return true;
+            }
+
+            return false;
+        }
+
+        private async Task<bool> AuthCustomerAsync()
+        {
+            // Сравнение строк в базе данных с учётом регистра
+            var customer = await VideoRentalDbContext.GetContext().Customers
+                .SingleOrDefaultAsync(c => c.User != null
+                    && EF.Functions.Collate(c.User.Email, "Latin1_General_CS_AS") == TBoxEmail.Text
+                    && EF.Functions.Collate(c.User.Password, "Latin1_General_CS_AS") == PBoxPassword.Password);
+
+
+            if (customer != null)
+            {
+                Manager.CurrentCustomer = customer;
+                return true;
+            }
+
+            return false;
         }
 
         private bool IsUserValid()
         {
+            if (ComboRoles.SelectedItem == null)
+            {
+                MessageBox.Show("Роль не выбрана!", Title, MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
             if (!Regex.IsMatch(TBoxEmail.Text, @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"))
             {
                 MessageBox.Show("Почта введена неверно!", Title, MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -98,7 +144,7 @@ namespace VideoRental
 
         private async void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
-            if (IsCustomerValid() && IsUserValid() && await IsUserNotExistsAsync())
+            if (IsCustomerValid() && IsUserValid() && await IsNewUserAsync())
             {
                 var customer = new Customer
                 {
@@ -129,7 +175,7 @@ namespace VideoRental
             }
         }
 
-        private async Task<bool> IsUserNotExistsAsync()
+        private async Task<bool> IsNewUserAsync()
         {
             if (await VideoRentalDbContext.GetContext().Users.FirstOrDefaultAsync(u => u.Email == TBoxEmail.Text) != null)
             {
@@ -139,7 +185,7 @@ namespace VideoRental
 
             return true;
         }
-            
+
 
         private void TBtnLoginRegister_Checked(object sender, RoutedEventArgs e)
         {
@@ -156,6 +202,30 @@ namespace VideoRental
             BtnLogin.Visibility = Visibility.Visible;
             BtnRegister.Visibility = Visibility.Collapsed;
             TBlockHeader.Text = "Вход";
+        }
+
+        private void ComboRoles_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboRoles.SelectedItem != null)
+            {
+                var role = ComboRoles.SelectedItem.ToString();
+
+                if (role == "Клиент")
+                {
+                    TBtnLoginRegister.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    TBtnLoginRegister.Visibility = Visibility.Collapsed;
+                    TBtnLoginRegister.IsChecked = false;
+                }
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            ComboRoles.ItemsSource = new List<string> { "Клиент", "Работник" };
+            ComboRoles.SelectedIndex = 0;
         }
     }
 }

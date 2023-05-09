@@ -8,5 +8,6 @@ namespace VideoRental.Domain
     {
         public static Frame MainFrame { get; set; }
         public static Customer CurrentCustomer { get; set; }
+        public static Employee CurrentEmployee { get; set; }
     }
 }
