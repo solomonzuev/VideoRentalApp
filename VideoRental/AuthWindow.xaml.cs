@@ -33,17 +33,17 @@ namespace VideoRental
             if (IsUserValid())
             {
                 var role = ComboRoles.SelectedItem.ToString();
-                bool isLogin = false;
+                object? currentUser = null;
 
                 try
                 {
                     if (role == "Клиент")
                     {
-                        isLogin = await AuthCustomerAsync();
+                        currentUser = await AuthCustomerAsync();
                     }
                     else if (role == "Работник")
                     {
-                        isLogin = await AuthEmployeeAsync();
+                        currentUser = await AuthEmployeeAsync();
                     }
                 }
                 catch (Exception ex)
@@ -51,9 +51,11 @@ namespace VideoRental
                     MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
-                // Проверяем, выполнен ли вход или нет
-                if (isLogin)
+                // Проверяем, найден пользователь (клиент или работник или админ) или нет
+                if (currentUser != null)
                 {
+                    Manager.CurrentUser = currentUser;
+
                     var mainWindow = new MainWindow();
                     mainWindow.Show();
                     Close();
@@ -66,7 +68,7 @@ namespace VideoRental
             }
         }
 
-        private async Task<bool> AuthEmployeeAsync()
+        private async Task<Employee?> AuthEmployeeAsync()
         {
             // Сравнение строк в базе данных с учётом регистра
             var employee = await VideoRentalDbContext.GetContext().Employees
@@ -74,17 +76,10 @@ namespace VideoRental
                     && EF.Functions.Collate(c.User.Email, "Latin1_General_CS_AS") == TBoxEmail.Text
                     && EF.Functions.Collate(c.User.Password, "Latin1_General_CS_AS") == PBoxPassword.Password);
 
-
-            if (employee != null)
-            {
-                Manager.CurrentEmployee = employee;
-                return true;
-            }
-
-            return false;
+            return employee;
         }
 
-        private async Task<bool> AuthCustomerAsync()
+        private async Task<Customer?> AuthCustomerAsync()
         {
             // Сравнение строк в базе данных с учётом регистра
             var customer = await VideoRentalDbContext.GetContext().Customers
@@ -92,14 +87,7 @@ namespace VideoRental
                     && EF.Functions.Collate(c.User.Email, "Latin1_General_CS_AS") == TBoxEmail.Text
                     && EF.Functions.Collate(c.User.Password, "Latin1_General_CS_AS") == PBoxPassword.Password);
 
-
-            if (customer != null)
-            {
-                Manager.CurrentCustomer = customer;
-                return true;
-            }
-
-            return false;
+            return customer;
         }
 
         private bool IsUserValid()

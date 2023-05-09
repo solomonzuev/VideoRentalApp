@@ -31,7 +31,7 @@ namespace VideoRental
 
             _transaction = new Transaction
             {
-                Customer = Manager.CurrentCustomer,
+                Customer = Manager.CurrentUser as Customer,
                 Film = selectedFilm,
             };
 

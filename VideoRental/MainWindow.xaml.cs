@@ -1,8 +1,10 @@
 ﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using VideoRental.Domain;
+using VideoRental.Models;
 
 namespace VideoRental
 {
@@ -20,20 +22,41 @@ namespace VideoRental
         {
             Manager.MainFrame = MainFrame;
 
-            // Устанавливаем контекст окна
-            DataContext = new MainWindowViewModel(new()
-            {
-                new MenuItemViewModel("Фильмы для аренды", typeof(FilmsPage)),
-                new MenuItemViewModel("Арендованные фильмы", typeof(RentedFilmsPage)),
-            });
-
+            SetDataContext();
             SetCustomerFullName();
+        }
+
+        private void SetDataContext()
+        {
+            // Устанавливаем контекст для всей страницы
+            if (Manager.CurrentUser is Customer)
+            {
+                DataContext = new MainWindowViewModel(new()
+                {
+                    new MenuItemViewModel("Фильмы для аренды", typeof(FilmsPage)),
+                    new MenuItemViewModel("Арендованные фильмы", typeof(RentedFilmsPage)),
+                });
+            }
+            else if (Manager.CurrentUser is Employee)
+            {
+                DataContext = new MainWindowViewModel(new()
+                {
+                    new MenuItemViewModel("Все фильмы", typeof(AllFilmsPage))
+                });
+            }
         }
 
         private void SetCustomerFullName()
         {
             // Устанавливаем контекст для панели с ФИО и кнопкой выхода
-            TBlockFullName.DataContext = Manager.CurrentCustomer;
+            if (Manager.CurrentUser is Customer customer)
+            {
+                TBlockFullName.DataContext = customer;
+            }
+            else if (Manager.CurrentUser is Employee employee)
+            {
+                TBlockFullName.DataContext = employee;
+            }
         }
 
         private void LBoxMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)

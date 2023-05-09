@@ -40,12 +40,14 @@ namespace VideoRental
 
         private async Task<List<Transaction>> GetTransactionsAsync()
         {
+            var customer = Manager.CurrentUser as Customer;
+
             var query = VideoRentalDbContext.GetContext().Transactions
                 .Include(t => t.Film)
                 .Include(t => t.VideosInMedia)
                 .Include(t => t.VideosInMedia.MediaType)
                 .Include(t => t.VideosInMedia.Store)
-                .Where(t => t.Customer == Manager.CurrentCustomer);
+                .Where(t => t.Customer == customer);
 
             // Фильтрация по введённому тексту
             if (!string.IsNullOrWhiteSpace(TextToSearch.Text))
