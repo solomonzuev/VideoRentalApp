@@ -5,10 +5,116 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VideoRental"
       mc:Ignorable="d" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="12"
+      TextOptions.TextFormattingMode="Ideal" 
+      TextOptions.TextRenderingMode="Auto"        
+      Background="{DynamicResource MaterialDesignPaper}"
+      FontFamily="{DynamicResource MaterialDesignFont}"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="AllFilmsPage">
-
+      Title="AllFilmsPage" IsVisibleChanged="Page_IsVisibleChanged">
+    <Page.Resources>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignDivider}" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Padding" Value="16 10"/>
+        </Style>
+    </Page.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <!-- Ввод текста для поиска -->
+                <TextBox 
+                    x:Name="TextToSearch"
+                    Grid.Row="0" Grid.Column="1" 
+                    Margin="10,0" Width="250" 
+                    materialDesign:HintAssist.Hint="Введите текст для поиска"
+                    KeyDown="TextToSearch_KeyDown"
+                    VerticalAlignment="Center"/>
+
+                <!-- Кнопка "Поиск" -->
+                <Button 
+                    x:Name="BtnSearch"
+                    materialDesign:ButtonAssist.CornerRadius="5"
+                    Grid.Row="0" Grid.Column="2"
+                    Margin="10" MaxWidth="150" 
+                    Content="Поиск"
+                    Click="BtnSearch_Click"
+                    VerticalAlignment="Center"/>
+            </StackPanel>
+            <Separator Grid.Row="1" 
+                Height="1" 
+                Background="{DynamicResource MaterialDesignDivider}" 
+                Margin="0 5 0 10"/>
+            <DataGrid x:Name="DGridFilms" 
+                  Grid.Row="1"
+                  Style="{StaticResource MaterialDesignDataGrid}"
+                  AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="2*" Header="Название" Binding="{Binding Name}" />
+                    <DataGridTextColumn Width="*" Header="Жанр" Binding="{Binding Genre.Name}" />
+                    <DataGridTextColumn Width="*" Header="Автор" Binding="{Binding Author.FullName}" />
+                    <DataGridTextColumn Width="auto" MaxWidth="120" Binding="{Binding LimitAge, StringFormat={}{0}+}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock TextWrapping="Wrap" Text="Возрастной рейтинг" TextAlignment="Center" />
+                        </DataGridTextColumn.Header>
+
+                        <!-- Расположить числа по центру -->
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Width="auto" Header="Цена за 3 дня" Binding="{Binding Price3Days, StringFormat=F2}">
+                        <!-- Расположить числа по центру -->
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTemplateColumn Width="auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                               x:Name="BtnMoreDetails"
+                               materialDesign:ButtonAssist.CornerRadius="5"
+                               ToolTip="Посмотреть подробные сведения о фильме" 
+                               Margin="20 0 20 0"
+                               Content="Подробнее" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <Separator Grid.Row="1" 
+                Height="1" 
+                Background="{DynamicResource MaterialDesignDivider}" 
+                Margin="0 10"/>
         
+        <!-- Кнопки "Удалить" и "Добавить" -->
+        <Button x:Name="BtnDelete" Grid.Row="2" HorizontalAlignment="Left"
+                materialDesign:ButtonAssist.CornerRadius="5"
+                Width="120"
+                MaxWidth="150"
+                VerticalAlignment="Center" Content="Удалить" Margin="10 5 10 0" Click="BtnDelete_Click"/>
+        <Button x:Name="BtnAdd" Grid.Row="2" HorizontalAlignment="Right"
+                materialDesign:ButtonAssist.CornerRadius="5"
+                Width="120"
+                MaxWidth="150"
+                VerticalAlignment="Center" Content="Добавить" Margin="10 5 10 0"/>
     </Grid>
 </Page>
