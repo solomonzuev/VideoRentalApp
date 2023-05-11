@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,15 +17,24 @@ namespace VideoRental
     {
         private const int MIN_RELEASE_YEAR = 1900;
         private readonly Film _film;
+        private readonly List<FilmCredit> _actors;
+
         public AddEditFilmPage(Film? film = null)
         {
             InitializeComponent();
 
             _film = film ?? new Film();
+            _actors = _film.Actors.ToList();
             DataContext = _film;
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            _film.Actors = _actors;
+            GoBack();
+        }
+
+        private static void GoBack()
         {
             Manager.MainFrame.GoBack();
             Manager.MainFrame.RemoveBackEntry();
@@ -31,7 +42,6 @@ namespace VideoRental
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            // TODO - Здесь ToListAsync выдает ошибку
             CBoxAuthors.ItemsSource = VideoRentalDbContext.GetContext().FilmCredits.ToList();
             CBoxDirectors.ItemsSource = VideoRentalDbContext.GetContext().FilmCredits.ToList();
             CBoxGenres.ItemsSource = VideoRentalDbContext.GetContext().Genres.ToList();
@@ -50,7 +60,7 @@ namespace VideoRental
                 {
                     await VideoRentalDbContext.GetContext().SaveChangesAsync();
                     MessageBox.Show("Информация сохранена!", Title, MessageBoxButton.OK, MessageBoxImage.Information);
-                    BtnCancel_Click(null, null);
+                    GoBack();
                 }
                 catch (Exception ex)
                 {
@@ -98,6 +108,12 @@ namespace VideoRental
             }
 
             return true;
+        }
+
+        private void BtnActors_Click(object sender, RoutedEventArgs e)
+        {
+            var wnd = new AddActorsWindow(_film);
+            wnd.ShowDialog();
         }
     }
 }

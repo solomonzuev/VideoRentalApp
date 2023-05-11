@@ -1,0 +1,59 @@
+﻿<Window x:Class="VideoRental.AddActorsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VideoRental"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="12"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="Добавить актёров фильма" 
+        Height="300" Width="600">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.ColumnSpan="2" TextWrapping="Wrap" FontWeight="Bold" FontSize="24" Text="{Binding Name, StringFormat='{}Актёры в фильме {0}'}"/>
+        <Separator Grid.Row="1"
+                   Grid.ColumnSpan="2"
+                   Height="1" 
+                   Background="{DynamicResource MaterialDesignDivider}" 
+                   Margin="0 5 0 10" />
+
+        <!-- Список актёров -->
+        <ListBox x:Name="LBoxActors" Grid.Row="2" SelectionMode="Multiple"
+                 Margin="10 0" ItemsSource="{Binding Actors}"
+                 DisplayMemberPath="FullName" />
+
+        <!-- Область управления -->
+        <StackPanel Grid.Row="2" Grid.Column="1" Margin="10 0">
+            <ComboBox x:Name="CBoxFilmCredits"
+                      materialDesign:HintAssist.Hint="Выберите актёра" 
+                      DisplayMemberPath="FullName" />
+            
+            <Button x:Name="BtnAdd" Width="150" FontSize="12"
+                    HorizontalAlignment="Left" 
+                    Margin="0 10 0 0" Content="Добавить актёра" Click="BtnAdd_Click" />
+            
+            <Button x:Name="BtnDelete" Width="150" FontSize="12"
+                    HorizontalAlignment="Left" 
+                    Margin="0 10 0 0" Content="Удалить выбранные"
+                    Background="Red"
+                    BorderBrush="Red" Click="BtnDelete_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

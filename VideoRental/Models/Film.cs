@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 
 namespace VideoRental.Models;
 
-public partial class Film
+public partial class Film : INotifyPropertyChanged
 {
+    private ICollection<FilmCredit> _actors = new List<FilmCredit>();
+
     public int Id { get; set; }
 
     public string Name { get; set; } = null!;
@@ -32,7 +36,23 @@ public partial class Film
 
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 
-    public virtual ICollection<FilmCredit> Actors { get; set; } = new List<FilmCredit>();
+    public virtual ICollection<FilmCredit> Actors
+    {
+        get => _actors;
+        set
+        {
+            _actors = value;
+            OnPropertyChanged(nameof(Actors));
+        }
+    }
 
     public string ActorsText => string.Join(", ", Actors.Select(a => a.FullName));
+
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 }

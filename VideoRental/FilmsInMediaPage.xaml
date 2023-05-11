@@ -1,4 +1,4 @@
-﻿<Page x:Class="VideoRental.AllFilmsPage"
+﻿<Page x:Class="VideoRental.FilmsInMediaPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -14,7 +14,7 @@
       Background="{DynamicResource MaterialDesignPaper}"
       FontFamily="{DynamicResource MaterialDesignFont}"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="AllFilmsPage" IsVisibleChanged="Page_IsVisibleChanged">
+      Title="Фильмы на носителях">
     <Page.Resources>
         <Style TargetType="DataGridColumnHeader">
             <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
@@ -61,14 +61,10 @@
                   Style="{StaticResource MaterialDesignDataGrid}"
                   AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="2*" Header="Название" Binding="{Binding Name}" />
-                    <DataGridTextColumn Width="*" Header="Жанр" Binding="{Binding Genre.Name}" />
-                    <DataGridTextColumn Width="*" Header="Автор" Binding="{Binding Author.FullName}" />
-                    <DataGridTextColumn Width="auto" MaxWidth="120" Binding="{Binding LimitAge, StringFormat={}{0}+}">
-                        <DataGridTextColumn.Header>
-                            <TextBlock TextWrapping="Wrap" Text="Возрастной рейтинг" TextAlignment="Center" />
-                        </DataGridTextColumn.Header>
-
+                    <DataGridTextColumn Width="2*" Header="Название фильма" Binding="{Binding Name}" />
+                    <DataGridTextColumn Width="*" Header="Носитель" Binding="{Binding Genre.Name}" />
+                    <DataGridTextColumn Width="*" Header="Магазин" Binding="{Binding Author.FullName}" />
+                    <DataGridTextColumn Width="*" Header="Количество" Binding="{Binding Author.FullName}">
                         <!-- Расположить числа по центру -->
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
@@ -76,27 +72,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Width="auto" Header="Цена за 3 дня" Binding="{Binding Price3Days, StringFormat=F2}">
-                        <!-- Расположить числа по центру -->
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <DataGridTemplateColumn Width="auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button
-                                    x:Name="BtnEdit"
-                                    materialDesign:ButtonAssist.CornerRadius="5"
-                                    ToolTip="Редактировать фильм" 
-                                    Margin="20 0 20 0"
-                                    Content="Редактировать"
-                                    Click="BtnEdit_Click" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Width="*" Header="Доступность" Binding="{Binding Author.FullName}" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
@@ -105,7 +81,7 @@
                 Height="1" 
                 Background="{DynamicResource MaterialDesignDivider}" 
                 Margin="0 10"/>
-        
+
         <!-- Кнопки "Удалить" и "Добавить" -->
         <Button x:Name="BtnDelete" Grid.Row="2" HorizontalAlignment="Left"
                 materialDesign:ButtonAssist.CornerRadius="5"
