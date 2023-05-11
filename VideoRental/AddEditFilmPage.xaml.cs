@@ -39,9 +39,6 @@ namespace VideoRental
 
         private async void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            // TODO - Добавить возможность добавлять актеров
-            // TODO - Исправить {selectedItems.Count}
-
             if (IsFilmValid())
             {
                 if (_film.Id == 0)

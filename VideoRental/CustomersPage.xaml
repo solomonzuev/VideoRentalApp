@@ -65,13 +65,24 @@
                 <DataGridTemplateColumn Width="auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button
+                            <StackPanel Orientation="Horizontal">
+                                <Button
                                     x:Name="BtnShowRented"
                                     materialDesign:ButtonAssist.CornerRadius="5"
                                     ToolTip="Посмотреть все сделки по аренде" 
-                                    Margin="20 0 20 0"
+                                    Margin="20 0 10 0"
                                     Content="Аренда фильмов"
                                     Click="BtnShowRented_Click" />
+                                <Button 
+                                    x:Name="BtnChangeBlackList"
+                                    materialDesign:ButtonAssist.CornerRadius="5"
+                                    MinWidth="75"
+                                    Margin="10 0 20 0"
+                                    Content="{Binding ChangeBlackListText}"
+                                    Background="Red"
+                                    BorderBrush="Red"
+                                    Click="BtnChangeBlackList_Click" />
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

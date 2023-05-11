@@ -25,6 +25,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         
@@ -82,18 +83,23 @@
                  MaxHeight="30"
                  Text="{Binding Path=Price3Days, StringFormat={}{0:F2}}" />
 
+        <!-- Добавление актёров в фильм -->
+        <Button Width="120" Grid.Row="7" HorizontalAlignment="Left" Content="Актёры" />
+
         <!-- Кнопки для сохранения и отмены изменений -->
-        <StackPanel Margin="16" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="7">
+        <StackPanel Margin="16" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="8">
             <Button x:Name="BtnSave" 
                 Content="Сохранить" 
                 Width="120" 
                 Margin="8"
                 IsDefault="True" Click="BtnSave_Click" />
             <Button x:Name="BtnCancel" 
-                Content="Отмена" 
-                Width="120" 
-                Margin="8"
-                IsCancel="True" Click="BtnCancel_Click" />
+                    Background="Red"
+                    BorderBrush="Red"
+                    Content="Отмена" 
+                    Width="120" 
+                    Margin="8"
+                    IsCancel="True" Click="BtnCancel_Click" />
         </StackPanel>
     </Grid>
 </Page>

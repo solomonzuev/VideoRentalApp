@@ -5,10 +5,15 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>video_rental_icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Resources\no_image_avaliable.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="video_rental_icon.ico" />
   </ItemGroup>
 
   <ItemGroup>

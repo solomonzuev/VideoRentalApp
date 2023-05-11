@@ -89,5 +89,22 @@ namespace VideoRental
                 Manager.MainFrame.Navigate(new RentedFilmsPage(customer));
             }
         }
+
+        private void BtnChangeBlackList_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button { DataContext: Customer customer })
+            {
+                customer.InBlackList = !customer.InBlackList;
+
+                try
+                {
+                    VideoRentalDbContext.GetContext().SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
     }
 }

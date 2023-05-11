@@ -10,6 +10,10 @@
                 <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Indigo" SecondaryColor="Amber" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <!-- Стили для кнопок -->
+            <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="5" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
