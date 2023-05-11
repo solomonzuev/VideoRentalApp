@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -37,7 +35,7 @@ namespace VideoRental
                     {
                         VideoRentalDbContext.GetContext().Films.RemoveRange(selectedItems);
                         VideoRentalDbContext.GetContext().SaveChanges();
-                        DGridFilms.ItemsSource = RefreshDataGrid();
+                        RefreshDataGrid();
                     }
                     catch (Exception ex)
                     {
@@ -58,7 +56,7 @@ namespace VideoRental
             }
         }
 
-        private List<Film> RefreshDataGrid()
+        private void RefreshDataGrid()
         {
             // Формируем запрос на получение сущностей из БД
             IQueryable<Film> query = VideoRentalDbContext.GetContext().Films;
@@ -76,7 +74,7 @@ namespace VideoRental
             }
 
             // Возвращаем результат
-            return query
+            DGridFilms.ItemsSource = query
                     .Include(f => f.FilmsInMedia)
                     .Include(f => f.Director)
                     .Include(f => f.Author)
@@ -90,13 +88,13 @@ namespace VideoRental
             if (Visibility == Visibility.Visible)
             {
                 ReloadEntries();
-                DGridFilms.ItemsSource = RefreshDataGrid();
+                RefreshDataGrid();
             }
         }
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-            DGridFilms.ItemsSource = RefreshDataGrid();
+            RefreshDataGrid();
         }
 
         private void TextToSearch_KeyDown(object sender, KeyEventArgs e)

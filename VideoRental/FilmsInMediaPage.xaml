@@ -14,7 +14,8 @@
       Background="{DynamicResource MaterialDesignPaper}"
       FontFamily="{DynamicResource MaterialDesignFont}"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Фильмы на носителях">
+      Title="Фильмы на носителях"
+      IsVisibleChanged="Page_IsVisibleChanged">
     <Page.Resources>
         <Style TargetType="DataGridColumnHeader">
             <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
@@ -56,15 +57,15 @@
                 Height="1" 
                 Background="{DynamicResource MaterialDesignDivider}" 
                 Margin="0 5 0 10"/>
-            <DataGrid x:Name="DGridFilms" 
+            <DataGrid x:Name="DGridFilmsInMedia" 
                   Grid.Row="1"
                   Style="{StaticResource MaterialDesignDataGrid}"
                   AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="2*" Header="Название фильма" Binding="{Binding Name}" />
-                    <DataGridTextColumn Width="*" Header="Носитель" Binding="{Binding Genre.Name}" />
-                    <DataGridTextColumn Width="*" Header="Магазин" Binding="{Binding Author.FullName}" />
-                    <DataGridTextColumn Width="*" Header="Количество" Binding="{Binding Author.FullName}">
+                    <DataGridTextColumn Width="2*" Header="Название фильма" Binding="{Binding Film.Name}" />
+                    <DataGridTextColumn Width="*" Header="Носитель" Binding="{Binding MediaType.Name}" />
+                    <DataGridTextColumn Width="*" Header="Адрес магазина" Binding="{Binding Store.Address}" />
+                    <DataGridTextColumn Width="*" Header="Количество" Binding="{Binding Units}">
                         <!-- Расположить числа по центру -->
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
@@ -72,7 +73,20 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Width="*" Header="Доступность" Binding="{Binding Author.FullName}" />
+                    <DataGridTextColumn Width="*" Header="Доступность" Binding="{Binding IsAvaliableText}" />
+                    <DataGridTemplateColumn Width="auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    x:Name="BtnEdit"
+                                    materialDesign:ButtonAssist.CornerRadius="5"
+                                    ToolTip="Редактировать фильм" 
+                                    Margin="20 0 20 0"
+                                    Content="Редактировать"
+                                    Click="BtnEdit_Click" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

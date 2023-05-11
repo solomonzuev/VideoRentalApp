@@ -24,4 +24,6 @@ public partial class FilmsInMedia
     public virtual StoreLocation Store { get; set; } = null!;
 
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+
+    public string IsAvaliableText => IsAvaliable == true ? "Доступна" : "Не доступна";
 }
