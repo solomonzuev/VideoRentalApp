@@ -25,12 +25,17 @@
             <Setter Property="Padding" Value="16 10"/>
         </Style>
     </Page.Resources>
-    <StackPanel Margin="10">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
         <StackPanel Orientation="Horizontal">
             <!-- Ввод текста для поиска -->
             <TextBox 
                 x:Name="TextToSearch"
-                Grid.Row="0" Grid.Column="1" 
                 Margin="10,0" Width="250" 
                 materialDesign:HintAssist.Hint="Введите текст для поиска" 
                 KeyDown="TextToSearch_KeyDown"
@@ -40,20 +45,20 @@
             <Button 
                 x:Name="BtnSearch"
                 materialDesign:ButtonAssist.CornerRadius="5"
-                Grid.Row="0" Grid.Column="2"
                 Margin="10" MaxWidth="150" 
                 Content="Поиск"
                 Click="BtnSearch_Click"
                 VerticalAlignment="Center"/>
         </StackPanel>
+
         <Separator Grid.Row="1" 
            Height="1" 
            Background="{DynamicResource MaterialDesignDivider}" 
            Margin="0 5 0 10"/>
-        
+
         <!-- Основная часть -->
         <DataGrid x:Name="DGridTransactions" 
-                  Grid.Row="1"
+                  Grid.Row="2"
                   Style="{StaticResource MaterialDesignDataGrid}"
                   AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
@@ -75,7 +80,7 @@
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <DataGridTextColumn Width="*" Header="Статус" Binding="{Binding StatusText}" />
-                
+
                 <!-- Колонка подтвердить выдачу/прием, только для работников -->
                 <DataGridTemplateColumn x:Name="DGColumnStatus" Visibility="Collapsed">
                     <DataGridTemplateColumn.CellTemplate>
@@ -92,5 +97,5 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-    </StackPanel>
+    </Grid>
 </Page>
