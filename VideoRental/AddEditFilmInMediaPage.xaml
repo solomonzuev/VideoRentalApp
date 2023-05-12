@@ -5,10 +5,76 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VideoRental"
       mc:Ignorable="d" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="12"
+      TextOptions.TextFormattingMode="Ideal" 
+      TextOptions.TextRenderingMode="Auto"        
+      Background="{DynamicResource MaterialDesignPaper}"
+      FontFamily="{DynamicResource MaterialDesignFont}"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="AddEditFilmsInMediaPage">
+      Title="AddEditFilmsInMediaPage"
+      Loaded="Page_Loaded">
 
-    <Grid>
-        
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Фильм -->
+        <ComboBox x:Name="CBoxFilms" Grid.Row="0"
+                      materialDesign:HintAssist.Hint="Фильм"
+                      SelectedItem="{Binding Path=Film}"
+                      DisplayMemberPath="Name" />
+
+        <!-- Носитель -->
+        <ComboBox x:Name="CBoxMediaTypes" Grid.Row="1"
+                      materialDesign:HintAssist.Hint="Носитель фильма"
+                      SelectedItem="{Binding Path=MediaType}"
+                      DisplayMemberPath="Name" />
+
+        <!-- Локация магазина -->
+        <ComboBox x:Name="CBoxStoreLocations" Grid.Row="2"
+                      materialDesign:HintAssist.Hint="Локация магазина"
+                      SelectedItem="{Binding Path=Store}"
+                      DisplayMemberPath="Address" />
+
+
+        <!-- Количество копий фильма на этом носителе -->
+        <TextBox x:Name="TBoxUnits" Grid.Row="3"
+                 materialDesign:HintAssist.Hint="Количество копий"
+                 HorizontalAlignment="Left"
+                 Padding="5 0"
+                 Width="120"
+                 MaxHeight="30"
+                 Text="{Binding Path=Units}"/>
+
+        <!-- Доступность -->
+        <CheckBox Grid.Row="4" 
+                  Style="{StaticResource MaterialDesignCheckBox}"
+                  Content="Доступно для аренды" 
+                  IsChecked="{Binding IsAvaliable}"/>
+
+        <!-- Кнопки для сохранения и отмены изменений -->
+        <StackPanel Margin="16" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="5">
+            <Button x:Name="BtnSave" 
+                Content="Сохранить" 
+                Width="120" 
+                Margin="8"
+                IsDefault="True" Click="BtnSave_Click" />
+            <Button x:Name="BtnCancel" 
+                    Background="Red"
+                    BorderBrush="Red"
+                    Content="Отмена" 
+                    Width="120" 
+                    Margin="8"
+                    IsCancel="True" Click="BtnCancel_Click" />
+        </StackPanel>
     </Grid>
 </Page>

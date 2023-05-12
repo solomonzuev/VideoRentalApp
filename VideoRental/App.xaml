@@ -11,9 +11,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <!-- Стили для кнопок -->
-            <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="5" />
-            </Style>
+            <Style TargetType="ScrollBar" BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

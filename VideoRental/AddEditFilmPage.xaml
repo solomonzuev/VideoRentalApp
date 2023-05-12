@@ -16,7 +16,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Добавление или редактирование фильма"
       Loaded="Page_Loaded">
-    <Grid Margin="16">
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -64,7 +64,6 @@
                     MaxWidth="300"
                     HorizontalAlignment="Left"
                     materialDesign:HintAssist.Hint="Возрастной рейтинг"
-                    materialDesign:HintAssist.Foreground="Black"
                     Minimum="0" 
                     Maximum="18"
                     TickPlacement="BottomRight"
@@ -78,8 +77,10 @@
 
         <!-- Цена за аренду фильма за 3 дня -->
         <TextBox Grid.Row="6"
-                 materialDesign:HintAssist.Hint="Цена за аренду фильма за 3 дня"
-                 materialDesign:HintAssist.Foreground="Black"
+                 materialDesign:HintAssist.Hint="Цена аренды за 3 дня"
+                 HorizontalAlignment="Left"
+                 Padding="5 0"
+                 Width="125"
                  MaxHeight="30"
                  Text="{Binding Path=Price3Days, StringFormat={}{0:F2}}" />
 
