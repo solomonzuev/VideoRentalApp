@@ -16,6 +16,10 @@ public partial class Customer : INotifyPropertyChanged
 
     public int? UserId { get; set; }
 
+    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+
+    public virtual User? User { get; set; }
+
     public bool InBlackList
     {
         get => _inBlackList;
@@ -27,11 +31,6 @@ public partial class Customer : INotifyPropertyChanged
             OnPropertyChanged(nameof(ChangeBlackListText));
         }
     }
-
-    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
-
-    public virtual User? User { get; set; }
-
 
     public string InBlackListText => InBlackList ? "Да" : "Нет";
     public string ChangeBlackListText => InBlackList ? "Из ЧС" : "В ЧС";

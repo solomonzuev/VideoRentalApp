@@ -51,8 +51,6 @@ namespace VideoRental
                     {
                         currentUser = await AuthAdministratorAsync();
                     }
-
-                    VideoRentalDbContext.UpdateContext();
                 }
                 catch (Exception ex)
                 {
@@ -96,6 +94,7 @@ namespace VideoRental
         {
             // Сравнение строк в базе данных с учётом регистра
             var employee = await VideoRentalDbContext.GetContext().Employees
+                .Include(emp => emp.Position)
                 .SingleOrDefaultAsync(emp => emp.User != null 
                     && emp.Position != null
                     && emp.Position.Name != ADMIN_POSITION

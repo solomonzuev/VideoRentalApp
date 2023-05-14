@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel;
 
 namespace VideoRental.Models;
 
 public partial class Transaction : INotifyPropertyChanged
 {
-    private decimal _totalPrice;
     private bool _isIssuied;
+    private decimal _totalPrice;
 
     public int Id { get; set; }
 
@@ -19,6 +19,14 @@ public partial class Transaction : INotifyPropertyChanged
     public DateTime StartDate { get; set; }
 
     public DateTime EndDate { get; set; }
+
+    public int VideosInMediaId { get; set; }
+
+    public virtual Customer Customer { get; set; } = null!;
+
+    public virtual Film Film { get; set; } = null!;
+
+    public virtual FilmsInMedia VideosInMedia { get; set; } = null!;
 
     public bool IsIssuied
     {
@@ -32,24 +40,16 @@ public partial class Transaction : INotifyPropertyChanged
         }
     }
 
-    public int VideosInMediaId { get; set; }
-
     public decimal TotalPrice
     {
         get => _totalPrice;
-        set 
+        set
         {
             _totalPrice = value;
             OnPropertyChanged(nameof(TotalPrice));
         }
     }
 
-    public virtual Customer Customer { get; set; } = null!;
-
-    public virtual Film Film { get; set; } = null!;
-
-    public virtual FilmsInMedia VideosInMedia { get; set; } = null!;
-    
     [NotMapped]
     public int RentCount { get; set; } = 1;
 

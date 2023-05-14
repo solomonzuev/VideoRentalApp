@@ -31,9 +31,15 @@ namespace VideoRental
 
                 if (isConfirmRemoving == MessageBoxResult.Yes)
                 {
+                    foreach (var item in selectedItems)
+                    {
+                        item.Actors.Clear();
+                    }
+
+                    VideoRentalDbContext.GetContext().Films.RemoveRange(selectedItems);
+                    
                     try
                     {
-                        VideoRentalDbContext.GetContext().Films.RemoveRange(selectedItems);
                         VideoRentalDbContext.GetContext().SaveChanges();
                         RefreshDataGrid();
                     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
@@ -45,7 +44,6 @@ public partial class Film : INotifyPropertyChanged
             OnPropertyChanged(nameof(Actors));
         }
     }
-
     public string ActorsText => string.Join(", ", Actors.Select(a => a.FullName));
 
 
