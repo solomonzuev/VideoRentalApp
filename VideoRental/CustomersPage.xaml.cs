@@ -30,7 +30,7 @@ namespace VideoRental
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-            DGridCustomers.ItemsSource = RefreshDataGrid();
+            RefreshDataGrid();
         }
 
         private void TextToSearch_KeyDown(object sender, KeyEventArgs e)
@@ -46,7 +46,7 @@ namespace VideoRental
             if (Visibility == Visibility.Visible)
             {
                 ReloadEntries();
-                DGridCustomers.ItemsSource = RefreshDataGrid();
+                RefreshDataGrid();
             }
         }
 
@@ -61,7 +61,7 @@ namespace VideoRental
             }
         }
 
-        private List<Customer> RefreshDataGrid()
+        private void RefreshDataGrid()
         {
             // Формируем запрос на получение сущностей из БД
             IQueryable<Customer> query = VideoRentalDbContext.GetContext().Customers;
@@ -72,14 +72,14 @@ namespace VideoRental
                 var textToSearch = TextToSearch.Text;
 
                 query = query.Where(c => c.FullName.Contains(textToSearch)
-                    || c.Phone != null && c.Phone.Contains(textToSearch)
-                    || c.User != null && c.User.Email.Contains(textToSearch));
+                    || c.Phone == null || c.Phone.Contains(textToSearch)
+                    || c.User == null || c.User.Email.Contains(textToSearch));
             }
 
-            // Возвращаем результат
-            return query
-                    .Include(c => c.User)
-                    .ToList();
+            // Обновляем данные в DataGrid
+            DGridCustomers.ItemsSource = query
+                .Include(c => c.User)
+                .ToList();
         }
 
         private void BtnShowRented_Click(object sender, RoutedEventArgs e)
