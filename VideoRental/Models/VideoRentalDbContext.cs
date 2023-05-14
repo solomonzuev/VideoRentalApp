@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using VideoRental.Domain;
 
 namespace VideoRental.Models;
 
 public partial class VideoRentalDbContext : DbContext
 {
     private static VideoRentalDbContext _context;
+    private const string ADMIN_POSITION = "Администратор";
 
     public VideoRentalDbContext()
     {
@@ -16,6 +19,30 @@ public partial class VideoRentalDbContext : DbContext
     public VideoRentalDbContext(DbContextOptions<VideoRentalDbContext> options)
         : base(options)
     {
+    }
+
+    public static void UpdateContext()
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<VideoRentalDbContext>();
+        var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+        if (Manager.CurrentUser is Customer)
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["ClientConnection"].ConnectionString;
+        }
+        else if (Manager.CurrentUser is Employee employee 
+            && employee.Position != null 
+            && employee.Position.Name == ADMIN_POSITION) 
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["AdminConnection"].ConnectionString;
+        }
+        else if (Manager.CurrentUser is Employee)
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["EmployeeConnection"].ConnectionString;
+        }
+
+         optionsBuilder.UseSqlServer(connectionString);
+        _context = new VideoRentalDbContext(optionsBuilder.Options);
     }
 
     public static VideoRentalDbContext GetContext()

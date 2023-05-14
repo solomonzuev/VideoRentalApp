@@ -51,6 +51,8 @@ namespace VideoRental
                     {
                         currentUser = await AuthAdministratorAsync();
                     }
+
+                    VideoRentalDbContext.UpdateContext();
                 }
                 catch (Exception ex)
                 {
