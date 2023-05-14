@@ -5,10 +5,89 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VideoRental"
       mc:Ignorable="d" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="12"
+      TextOptions.TextFormattingMode="Ideal" 
+      TextOptions.TextRenderingMode="Auto"        
+      Background="{DynamicResource MaterialDesignPaper}"
+      FontFamily="{DynamicResource MaterialDesignFont}"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="AddEditEmployeePage">
+      Title="Добавление и редактирование сотрудников"
+      Loaded="Page_Loaded">
 
-    <Grid>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ФИО работника -->
+        <TextBox materialDesign:HintAssist.Hint="ФИО работника"
+                 MaxHeight="30"
+                 MaxLength="100"
+                 Text="{Binding Path=FullName}" />
+
+        <!-- Номер телефона работника -->
+        <TextBox materialDesign:HintAssist.Hint="Номер телефона"
+                 Grid.Row="1"
+                 MaxHeight="30"
+                 HorizontalAlignment="Left"
+                 Width="150"
+                 MaxLength="12"
+                 Text="{Binding Path=Phone}" />
+
+        <!-- Эл. почта работника -->
+        <TextBox x:Name="TBoxEmail"
+                 materialDesign:HintAssist.Hint="Эл. почта работника"
+                 Grid.Row="2"
+                 MaxHeight="30"
+                 MaxLength="100"
+                 Text="{Binding Path=User.Email}" />
+
+        <!-- Пароль работника -->
+        <TextBox x:Name="TBoxPassword" 
+                materialDesign:HintAssist.Hint="Пароль"
+                Grid.Row="3"
+                MaxHeight="30" 
+                MaxLength="100"
+                Text="{Binding User.Password}"/>
+
+
+
+        <!-- Должность работника -->
+        <ComboBox x:Name="CBoxPositions" Grid.Row="4"
+                      materialDesign:HintAssist.Hint="Должность"
+                      SelectedItem="{Binding Path=Position}"
+                      DisplayMemberPath="Name" />
+
+        <!-- Должность работника -->
+        <ComboBox x:Name="CBoxStoreLocations" Grid.Row="5"
+                      materialDesign:HintAssist.Hint="Адрес магазина для работы"
+                      SelectedItem="{Binding Path=Store}"
+                      DisplayMemberPath="Address" />
         
+
+        <!-- Кнопки для сохранения и отмены изменений -->
+        <StackPanel Margin="16" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="8">
+            <Button x:Name="BtnSave" 
+                Content="Сохранить" 
+                Width="120" 
+                Margin="8"
+                IsDefault="True" Click="BtnSave_Click" />
+            <Button x:Name="BtnCancel" 
+                    Background="Red"
+                    BorderBrush="Red"
+                    Content="Отмена" 
+                    Width="120" 
+                    Margin="8"
+                    IsCancel="True" Click="BtnCancel_Click" />
+        </StackPanel>
     </Grid>
 </Page>
