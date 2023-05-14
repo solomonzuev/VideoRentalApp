@@ -62,7 +62,11 @@
                   AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="1.5*" Header="ФИО" Binding="{Binding FullName}" />
-                <DataGridTextColumn Width="*" Header="Номер телефона" Binding="{Binding Phone}" />
+                <DataGridTextColumn Width="0.7*" Binding="{Binding Phone}">
+                    <DataGridTextColumn.Header>
+                        <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Номер телефона" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
                 <DataGridTextColumn Width="*" Header="Эл. почта" Binding="{Binding User.Email}" />
                 <DataGridTextColumn Width="*" Header="Должность" Binding="{Binding Position.Name}" />
                 <DataGridTextColumn Width="*" Header="Адрес магазина" Binding="{Binding Store.Address}" />

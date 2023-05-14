@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VideoRental.Models;
 
 namespace VideoRental
 {
@@ -20,9 +21,12 @@ namespace VideoRental
     /// </summary>
     public partial class AddEditEmployeePage : Page
     {
-        public AddEditEmployeePage()
+        private readonly Employee? _employee;
+
+        public AddEditEmployeePage(Employee? employee = null)
         {
             InitializeComponent();
+            _employee = employee ?? new Employee();
         }
     }
 }

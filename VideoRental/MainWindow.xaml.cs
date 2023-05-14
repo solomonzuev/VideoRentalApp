@@ -13,6 +13,8 @@ namespace VideoRental
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const string ADMIN_POSITION = "Администратор";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -37,6 +39,14 @@ namespace VideoRental
                     new MenuItemViewModel("Арендованные фильмы", typeof(RentedFilmsPage)),
                 });
             }
+            else if (Manager.CurrentUser is Employee employee 
+                && employee.Position.Name == ADMIN_POSITION)
+            {
+                DataContext = new MainWindowViewModel(new()
+                {
+                    new MenuItemViewModel("Сотрудники", typeof(EmployeesPage)),
+                });
+            }
             else if (Manager.CurrentUser is Employee)
             {
                 DataContext = new MainWindowViewModel(new()
@@ -46,6 +56,7 @@ namespace VideoRental
                     new MenuItemViewModel("Фильмы на носителях", typeof(FilmsInMediaPage)),
                 });
             }
+            
         }
 
         private void SetCustomerFullName()

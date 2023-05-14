@@ -23,6 +23,8 @@ namespace VideoRental
     /// </summary>
     public partial class AuthWindow : Window
     {
+        private const string ADMIN_POSITION = "Администратор";
+
         public AuthWindow()
         {
             InitializeComponent();
@@ -44,6 +46,10 @@ namespace VideoRental
                     else if (role == "Работник")
                     {
                         currentUser = await AuthEmployeeAsync();
+                    }
+                    else if (role == "Администратор")
+                    {
+                        currentUser = await AuthAdministratorAsync();
                     }
                 }
                 catch (Exception ex)
@@ -68,13 +74,31 @@ namespace VideoRental
             }
         }
 
+        private async Task<Employee?> AuthAdministratorAsync()
+        {
+            // Сравнение строк в базе данных с учётом регистра
+            var employee = await VideoRentalDbContext.GetContext().Employees
+                .Include(emp => emp.Position)
+                .Include(emp => emp.Store)
+                .Include(emp => emp.User)
+                .SingleOrDefaultAsync(emp => emp.User != null 
+                    && emp.Position != null 
+                    && emp.Position.Name == ADMIN_POSITION
+                    && EF.Functions.Collate(emp.User.Email, "Latin1_General_CS_AS") == TBoxEmail.Text
+                    && EF.Functions.Collate(emp.User.Password, "Latin1_General_CS_AS") == PBoxPassword.Password);
+
+            return employee;
+        }
+
         private async Task<Employee?> AuthEmployeeAsync()
         {
             // Сравнение строк в базе данных с учётом регистра
             var employee = await VideoRentalDbContext.GetContext().Employees
-                .SingleOrDefaultAsync(c => c.User != null
-                    && EF.Functions.Collate(c.User.Email, "Latin1_General_CS_AS") == TBoxEmail.Text
-                    && EF.Functions.Collate(c.User.Password, "Latin1_General_CS_AS") == PBoxPassword.Password);
+                .SingleOrDefaultAsync(emp => emp.User != null 
+                    && emp.Position != null
+                    && emp.Position.Name != ADMIN_POSITION
+                    && EF.Functions.Collate(emp.User.Email, "Latin1_General_CS_AS") == TBoxEmail.Text
+                    && EF.Functions.Collate(emp.User.Password, "Latin1_General_CS_AS") == PBoxPassword.Password);
 
             return employee;
         }
@@ -212,7 +236,7 @@ namespace VideoRental
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ComboRoles.ItemsSource = new List<string> { "Клиент", "Работник" };
+            ComboRoles.ItemsSource = new List<string> { "Клиент", "Работник", "Администратор" };
             ComboRoles.SelectedIndex = 0;
         }
     }
