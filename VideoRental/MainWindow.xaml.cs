@@ -1,16 +1,11 @@
 ﻿using MaterialDesignThemes.Wpf;
-using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using VideoRental.Domain;
 using VideoRental.Models;
 
 namespace VideoRental
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private const string ADMIN_POSITION = "Администратор";

@@ -8,7 +8,7 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
       TextElement.FontWeight="Regular"
-      TextElement.FontSize="12"
+      TextElement.FontSize="14"
       TextOptions.TextFormattingMode="Ideal" 
       TextOptions.TextRenderingMode="Auto"        
       Background="{DynamicResource MaterialDesignPaper}"
@@ -80,7 +80,7 @@
                  materialDesign:HintAssist.Hint="Цена аренды за 3 дня"
                  HorizontalAlignment="Left"
                  Padding="5 0"
-                 Width="125"
+                 Width="160"
                  MaxHeight="30"
                  Text="{Binding Path=Price3Days, StringFormat={}{0:F2}}" />
 
