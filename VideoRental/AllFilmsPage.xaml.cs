@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,9 +10,6 @@ using VideoRental.Models;
 
 namespace VideoRental
 {
-    /// <summary>
-    /// Логика взаимодействия для AllFilmsPage.xaml
-    /// </summary>
     public partial class AllFilmsPage : Page
     {
         public AllFilmsPage()
@@ -23,7 +21,7 @@ namespace VideoRental
         {
             var selectedItems = DGridFilms.SelectedItems.Cast<Film>().ToList();
 
-            if (selectedItems.Count > 0)
+            if (selectedItems.Any())
             {
                 var isConfirmRemoving =
                     MessageBox.Show($"Вы уверены, что хотите удалить выбранные {selectedItems.Count} элементов?",
@@ -31,24 +29,48 @@ namespace VideoRental
 
                 if (isConfirmRemoving == MessageBoxResult.Yes)
                 {
-                    foreach (var item in selectedItems)
+                    if (AllCanBeDeleted(selectedItems))
                     {
-                        item.Actors.Clear();
+                        TryDeleteFromDatabase(selectedItems);
                     }
-
-                    VideoRentalDbContext.GetContext().Films.RemoveRange(selectedItems);
-                    
-                    try
+                    else
                     {
-                        VideoRentalDbContext.GetContext().SaveChanges();
-                        RefreshDataGrid();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Операция не может быть завершена, так как существуют пользователи, которые выполнили аренду фильмов!", 
+                            "Удаление данных", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                 }
             }
+        }
+
+        private void TryDeleteFromDatabase(IEnumerable<Film> filmsToRemove)
+        {
+            foreach (var film in filmsToRemove)
+            {
+                film.Actors.Clear();
+                VideoRentalDbContext.GetContext().FilmsInMedia.RemoveRange(film.FilmsInMedia);
+            }
+            
+            VideoRentalDbContext.GetContext().Films.RemoveRange(filmsToRemove);
+
+            try
+            {
+                VideoRentalDbContext.GetContext().SaveChanges();
+                RefreshDataGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private static bool AllCanBeDeleted(IEnumerable<Film> films)
+        {
+            return films.All(f => HasNoTransactions(f.FilmsInMedia));
+        }
+
+        private static bool HasNoTransactions(IEnumerable<FilmsInMedia> filmMedia)
+        {
+            return filmMedia.All(fm => !fm.Transactions.Any());
         }
 
         private void ReloadEntries()
@@ -86,6 +108,7 @@ namespace VideoRental
                     .Include(f => f.Author)
                     .Include(f => f.Genre)
                     .Include(f => f.Actors)
+                    .Include(f => f.Transactions)
                     .ToList();
         }
 
