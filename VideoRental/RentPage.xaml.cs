@@ -41,7 +41,7 @@ namespace VideoRental
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             CBoxStoreLocations.ItemsSource = await VideoRentalDbContext.GetContext().FilmsInMedia
-                .Where(fm => fm.Film == _transaction.Film && fm.IsAvaliable == true)
+                .Where(fm => fm.Film == _transaction.Film && fm.IsAvailable == true)
                 .Include(fm => fm.MediaType)
                 .Include(fm => fm.Store)
                 .Select(fm => fm.Store)
@@ -80,7 +80,7 @@ namespace VideoRental
 
                 CBoxMediaTypes.ItemsSource = await VideoRentalDbContext.GetContext().FilmsInMedia
                     .Include(fm => fm.MediaType)
-                    .Where(fm => fm.IsAvaliable == true 
+                    .Where(fm => fm.IsAvailable == true 
                         && fm.Film == _transaction.Film 
                         && fm.Store.Address == selectedStore.Address)
                     .Select(fm => fm.MediaType)

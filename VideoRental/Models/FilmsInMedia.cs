@@ -15,7 +15,7 @@ public partial class FilmsInMedia
 
     public int StoreId { get; set; }
 
-    public bool? IsAvaliable { get; set; }
+    public bool? IsAvailable { get; set; }
 
     public virtual Film Film { get; set; } = null!;
 
@@ -24,4 +24,6 @@ public partial class FilmsInMedia
     public virtual StoreLocation Store { get; set; } = null!;
 
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+
+    public string IsAvailableText => IsAvailable == true ? "Доступен" : "Не доступен";
 }

@@ -75,7 +75,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="*" Header="Доступность" Binding="{Binding IsAvaliableText}" />
+                <DataGridTextColumn Width="*" Header="Доступность" Binding="{Binding IsAvailableText}" />
                 <DataGridTemplateColumn Width="auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

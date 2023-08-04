@@ -60,14 +60,14 @@ namespace VideoRental
                     .Include(f => f.Author)
                     .Include(f => f.Genre)
                     .Include(f => f.Actors)
-                    .Where(f => f.FilmsInMedia.Any(fm => fm.IsAvaliable == true));
+                    .Where(f => f.FilmsInMedia.Any(fm => fm.IsAvailable == true));
 
             // Фильтрация по введённому тексту
             if (!string.IsNullOrWhiteSpace(TextToSearch.Text))
             {
                 string textToSearch = TextToSearch.Text;
 
-                query = query.Where(f => f.FilmsInMedia.Any(fm => fm.IsAvaliable == true))
+                query = query.Where(f => f.FilmsInMedia.Any(fm => fm.IsAvailable == true))
                     .Where(f => f.Name.Contains(textToSearch)
                         || f.Genre.Name.Contains(textToSearch)
                         || f.Author.FullName.Contains(textToSearch)

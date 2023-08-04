@@ -87,7 +87,13 @@ namespace VideoRental
                 return false;
             }
 
-            if (_filmInMedia.Units == 0 && _filmInMedia.IsAvaliable == true)
+            if (_filmInMedia.IsAvailable == null)
+            {
+                MessageBox.Show("Необходимо выбрать, доступен ли товар для аренды или нет!", Title, MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            if (_filmInMedia.Units == 0 && _filmInMedia.IsAvailable == true)
             {
                 MessageBox.Show("Товар не может быть доступен, если количество копий равно 0!", Title, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;

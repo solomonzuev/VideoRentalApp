@@ -19,9 +19,6 @@ using VideoRental.Models;
 
 namespace VideoRental
 {
-    /// <summary>
-    /// Логика взаимодействия для FilmsInMediaPage.xaml
-    /// </summary>
     public partial class FilmsInMediaPage : Page
     {
         public FilmsInMediaPage()
@@ -34,6 +31,7 @@ namespace VideoRental
             Manager.MainFrame.Navigate(new AddEditFilmInMediaPage());
         }
 
+        // TODO - Сделать проверку перед удалением фильмов на носителях
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             var selectedItems = DGridFilmsInMedia.SelectedItems.Cast<FilmsInMedia>().ToList();

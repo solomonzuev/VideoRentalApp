@@ -145,7 +145,7 @@ public partial class VideoRentalDbContext : DbContext
 
             entity.HasIndex(e => new { e.FilmId, e.MediaTypeId }, "UQ__VideosIn__51C93937FCAF3C89").IsUnique();
 
-            entity.Property(e => e.IsAvaliable)
+            entity.Property(e => e.IsAvailable)
                 .IsRequired()
                 .HasDefaultValueSql("((1))");
 

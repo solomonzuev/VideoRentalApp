@@ -59,7 +59,7 @@
         <CheckBox Grid.Row="4" 
                   Style="{StaticResource MaterialDesignCheckBox}"
                   Content="Доступно для аренды" 
-                  IsChecked="{Binding IsAvaliable}"/>
+                  IsChecked="{Binding IsAvailable}"/>
 
         <!-- Кнопки для сохранения и отмены изменений -->
         <StackPanel Margin="16" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="5">
