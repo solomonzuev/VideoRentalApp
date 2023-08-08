@@ -14,7 +14,9 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         WindowStartupLocation="CenterScreen"
-        Title="Регистрация и вход" Height="450" Width="800"
+        Title="Регистрация и вход" 
+        MinHeight="350" MinWidth="600"
+        Height="450" Width="800"
         Loaded="Window_Loaded">
     <Grid Margin="10">
         <Grid.RowDefinitions>

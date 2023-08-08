@@ -86,7 +86,7 @@
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Bottom"
                    FontSize="18" FontWeight="Bold"
-                   Text="{Binding TotalPrice, StringFormat='{} Сумма {0:F2} руб.'}" />
+                   Text="{Binding TotalPrice, StringFormat={} Сумма: {0:N2} РУБ}" />
 
             <!-- Кнопка "Арендовать" -->
         <Button x:Name="BtnRent"

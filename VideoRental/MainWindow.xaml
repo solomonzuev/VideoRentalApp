@@ -16,6 +16,8 @@
         Width="1100"
         WindowState="Maximized"
         MaxHeight="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight}}"
+        MinWidth="900"
+        MinHeight="600"
         Loaded="Window_Loaded">
     <Grid>
         <!-- Основной контент приложения -->

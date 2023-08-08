@@ -57,29 +57,30 @@
            Margin="0 5 0 10"/>
 
         <!-- Основная часть -->
-        <DataGrid x:Name="DGridTransactions" 
+        <DataGrid x:Name="DGridTransactions"
                   Grid.Row="2"
                   Style="{StaticResource MaterialDesignDataGrid}"
                   AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="1.5*" Header="Название фильма" Binding="{Binding Film.Name}" />
-                <DataGridTextColumn Width="*" Header="Носитель" Binding="{Binding VideosInMedia.MediaType.Name}" />
-                <DataGridTextColumn MaxWidth="120" Binding="{Binding StartDate, StringFormat=dd.MM.yyyy HH:mm}">
+                <DataGridTextColumn Width="2*" Header="Название фильма" Binding="{Binding Film.Name}" />
+                <DataGridTextColumn Width="1.5*" Header="Носитель" Binding="{Binding VideosInMedia.MediaType.Name}" />
+                <DataGridTextColumn Width="*" Binding="{Binding StartDate, StringFormat=dd.MM.yyyy HH:mm}">
                     <DataGridTextColumn.Header>
                         <TextBlock TextWrapping="Wrap" Text="Начало аренды" TextAlignment="Center" />
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
-                <DataGridTextColumn MaxWidth="120" Binding="{Binding EndDate, StringFormat=dd.MM.yyyy HH:mm}">
+                <DataGridTextColumn Width="*" Binding="{Binding EndDate, StringFormat=dd.MM.yyyy HH:mm}">
                     <DataGridTextColumn.Header>
                         <TextBlock TextWrapping="Wrap" Text="Окончание аренды" TextAlignment="Center" />
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
-                <DataGridTextColumn MaxWidth="120" Binding="{Binding VideosInMedia.Store.Address}">
+                <DataGridTextColumn Width="*" Binding="{Binding VideosInMedia.Store.Address}">
                     <DataGridTextColumn.Header>
                         <TextBlock TextWrapping="Wrap" Text="Адрес магазина" TextAlignment="Center" />
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <DataGridTextColumn Width="*" Header="Статус" Binding="{Binding StatusText}" />
+                <DataGridTextColumn Width="*" Header="Цена" Binding="{Binding TotalPrice, StringFormat={}{0:N2} РУБ}" />
 
                 <!-- Колонка подтвердить выдачу/прием, только для работников -->
                 <DataGridTemplateColumn x:Name="DGColumnStatus" Visibility="Collapsed">
