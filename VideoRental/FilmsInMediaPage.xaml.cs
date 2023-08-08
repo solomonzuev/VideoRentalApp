@@ -44,18 +44,32 @@ namespace VideoRental
 
                 if (isConfirmRemoving == MessageBoxResult.Yes)
                 {
-                    try
+                    if (CanAllBeDeleted(selectedItems))
                     {
-                        VideoRentalDbContext.GetContext().FilmsInMedia.RemoveRange(selectedItems);
-                        VideoRentalDbContext.GetContext().SaveChanges();
-                        RefreshDataGrid();
+                        try
+                        {
+                            VideoRentalDbContext.GetContext().FilmsInMedia.RemoveRange(selectedItems);
+                            VideoRentalDbContext.GetContext().SaveChanges();
+                            RefreshDataGrid();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Некоторые из выбранных товаров имеют совершенные транзакции и не могут быть удалены!", 
+                            "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
+                    
                 }
             }
+        }
+
+        private static bool CanAllBeDeleted(List<FilmsInMedia> filmsInMedia)
+        {
+            return !filmsInMedia.Any(fm => fm.Transactions.Any());
         }
 
         private void RefreshDataGrid()
