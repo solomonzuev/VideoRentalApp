@@ -8,6 +8,7 @@ namespace VideoRental.Models;
 public partial class Film : INotifyPropertyChanged
 {
     private ICollection<FilmCredit> _actors = new List<FilmCredit>();
+    private byte _limitAge;
 
     public int Id { get; set; }
 
@@ -21,7 +22,15 @@ public partial class Film : INotifyPropertyChanged
 
     public DateTime ReleaseDate { get; set; }
 
-    public byte LimitAge { get; set; }
+    public byte LimitAge
+    {
+        get => _limitAge;
+        set
+        {
+            _limitAge = value;
+            OnPropertyChanged(nameof(LimitAge));
+        }
+    }
 
     public decimal Price3Days { get; set; }
 

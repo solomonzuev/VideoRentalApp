@@ -69,7 +69,7 @@
                     TickPlacement="BottomRight"
                     IsSnapToTickEnabled="True"
                     Value="{Binding Path=LimitAge}" />
-            <TextBlock Text="{Binding Path=LimitAge, StringFormat='{}{0:F0}+'}" 
+            <TextBlock Text="{Binding Path=LimitAge, StringFormat={}{0:F0}+}" 
                     Margin="10 5"
                     HorizontalAlignment="Center" />
         </StackPanel>
