@@ -68,8 +68,6 @@
                     HorizontalAlignment="Left"
                     HorizontalContentAlignment="Center"
                     MaxLength="3"
-                    Text="{Binding RentCount, UpdateSourceTrigger=PropertyChanged}"
-                    PreviewTextInput="TBoxRentDays_PreviewTextInput"
                     TextChanged="TBoxRentDays_TextChanged"/>
                 <TextBlock VerticalAlignment="Center" Text="раз" />
             </StackPanel>

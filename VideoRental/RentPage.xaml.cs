@@ -2,25 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VideoRental.Domain;
 using VideoRental.Models;
 
 namespace VideoRental
 {
-    /// <summary>
-    /// Логика взаимодействия для RentPage.xaml
-    /// </summary>
     public partial class RentPage : Page
     {
         private const int RENT_LENGTH_DAYS = 3;
@@ -40,6 +30,7 @@ namespace VideoRental
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            TBoxRentDays.Text = "1";
             CBoxStoreLocations.ItemsSource = await VideoRentalDbContext.GetContext().FilmsInMedia
                 .Where(fm => fm.Film == _transaction.Film && fm.IsAvailable == true)
                 .Include(fm => fm.MediaType)
@@ -51,16 +42,21 @@ namespace VideoRental
 
         private void TBoxRentDays_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!int.TryParse(TBoxRentDays.Text, out _))
+            if (int.TryParse(TBoxRentDays.Text, out int rentCount) && rentCount > 0) // Если успешно преобразовано в число
             {
-                TBoxRentDays.Text = "0";
+                _transaction.RentCount = rentCount;
+                TBoxRentDays.Background = Brushes.White;
+            }
+            else // Если произошла ошибка при преобразовании
+            {
+                TBoxRentDays.Background = Brushes.Salmon;
             }
 
-            // Выссчитываем дату аренды
+            // Высчитываем дату аренды
             var startDate = DateTime.Now;
             var endDate = startDate.AddDays(RENT_LENGTH_DAYS * _transaction.RentCount);
 
-            // Обновляем своства сделки
+            // Обновляем свойства сделки
             _transaction.TotalPrice = _transaction.Film.Price3Days * _transaction.RentCount;
             _transaction.StartDate = startDate;
             _transaction.EndDate = endDate;
@@ -80,8 +76,8 @@ namespace VideoRental
 
                 CBoxMediaTypes.ItemsSource = await VideoRentalDbContext.GetContext().FilmsInMedia
                     .Include(fm => fm.MediaType)
-                    .Where(fm => fm.IsAvailable == true 
-                        && fm.Film == _transaction.Film 
+                    .Where(fm => fm.IsAvailable == true
+                        && fm.Film == _transaction.Film
                         && fm.Store.Address == selectedStore.Address)
                     .Select(fm => fm.MediaType)
                     .Distinct()
