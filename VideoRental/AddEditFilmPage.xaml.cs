@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -10,9 +8,6 @@ using VideoRental.Models;
 
 namespace VideoRental
 {
-    /// <summary>
-    /// Логика взаимодействия для AddEditFilmPage.xaml
-    /// </summary>
     public partial class AddEditFilmPage : Page
     {
         private const int MIN_RELEASE_YEAR = 1900;

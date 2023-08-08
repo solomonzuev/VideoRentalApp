@@ -114,7 +114,7 @@ namespace VideoRental
 
         private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (Visibility == Visibility.Visible)
+            if ((bool)e.NewValue)
             {
                 ReloadEntries();
                 RefreshDataGrid();
