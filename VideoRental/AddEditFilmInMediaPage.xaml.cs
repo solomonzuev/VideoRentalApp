@@ -29,14 +29,15 @@ namespace VideoRental
             CBoxStoreLocations.ItemsSource = VideoRentalDbContext.GetContext().StoreLocations.ToList();
         }
 
+        // TODO - Проверить все места, где могут вноситься повторяющиеся данные в базу данных
         private void BtnSave_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            _filmInMedia.Film = CBoxFilms.SelectedItem as Film;
+            _filmInMedia.Store = CBoxStoreLocations.SelectedItem as StoreLocation;
+            _filmInMedia.MediaType = CBoxMediaTypes.SelectedItem as MediaType;
+
             if (IsFilmInMediaValid())
             {
-                _filmInMedia.Film = CBoxFilms.SelectedItem as Film;
-                _filmInMedia.Store = CBoxStoreLocations.SelectedItem as StoreLocation;
-                _filmInMedia.MediaType = CBoxMediaTypes.SelectedItem as MediaType;
-
                 if (_filmInMedia.Id == 0)
                 {
                     VideoRentalDbContext.GetContext().Add(_filmInMedia);
@@ -99,7 +100,21 @@ namespace VideoRental
                 return false;
             }
 
+            if (CheckIfDuplicate())
+            {
+                MessageBox.Show("Товар с выбранным названием уже выпущен на выбранном носителе!", Title, MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
             return true;
+        }
+
+        private bool CheckIfDuplicate()
+        {
+            return VideoRentalDbContext.GetContext().FilmsInMedia
+                .Any(fm => fm.Id != _filmInMedia.Id 
+                    && fm.Film == _filmInMedia.Film 
+                    && fm.MediaType == _filmInMedia.MediaType);
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
