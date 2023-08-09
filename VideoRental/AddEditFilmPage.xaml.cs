@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -109,6 +110,23 @@ namespace VideoRental
         {
             var wnd = new AddActorsWindow(_film);
             wnd.ShowDialog();
+        }
+
+        private void BtnSelectPoster_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Title = "Выбор постера",
+                Filter = "Изображения |*.jpg;*.jpeg;*.png",
+                Multiselect = false,
+                FilterIndex = 1
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                _film.PosterPath = openFileDialog.FileName;
+                
+            }
         }
     }
 }

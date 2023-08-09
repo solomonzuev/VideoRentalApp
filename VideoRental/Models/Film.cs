@@ -7,6 +7,7 @@ namespace VideoRental.Models;
 
 public partial class Film : INotifyPropertyChanged
 {
+    private string _posterPath = null!;
     private ICollection<FilmCredit> _actors = new List<FilmCredit>();
     private byte _limitAge;
 
@@ -21,6 +22,15 @@ public partial class Film : INotifyPropertyChanged
     public int DirectorId { get; set; }
 
     public DateTime ReleaseDate { get; set; }
+    public string PosterPath
+    {
+        get => _posterPath;
+        set
+        {
+            _posterPath = value;
+            OnPropertyChanged(nameof(PosterPath));
+        }
+    }
 
     public byte LimitAge
     {

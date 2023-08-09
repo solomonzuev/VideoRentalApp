@@ -91,6 +91,7 @@ public partial class VideoRentalDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK_Videos");
 
             entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.PosterPath).HasMaxLength(255).IsRequired(false);
             entity.Property(e => e.Price3Days).HasColumnType("money");
             entity.Property(e => e.ReleaseDate).HasColumnType("date");
 

@@ -8,62 +8,89 @@
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
-        TextElement.FontSize="12"
+        TextElement.FontSize="14"
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="Подробная информация о фильме"
-        Width="500" Height="550"
+        Width="500" Height="700"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterOwner">
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="0 0 10 0" />
+        </Style>
+    </Window.Resources>
+    
     <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" MinHeight="300" />
             <RowDefinition />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel>
-            <TextBlock Text="{Binding Name}" FontSize="24" 
-                       FontWeight="Bold" Margin="0 0 0 10" />
-            <Image Grid.Column="1" 
-                   VerticalAlignment="Top" 
-                   Source="/Resources/no_image_avaliable.png" 
-                   Width="150" Height="200" Margin="10" />
-        </StackPanel>
+        <!-- Название фильма -->
+        <TextBlock Text="{Binding Name}" FontSize="24" FontWeight="Bold" Margin="0" />
 
-        <StackPanel Grid.Row="1">
-            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-                <TextBlock Text="Жанр:" FontWeight="Bold" Width="150" />
-                <TextBlock Text="{Binding Genre.Name}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-                <TextBlock Text="Автор:" FontWeight="Bold" Width="150" />
-                <TextBlock Text="{Binding Author.FullName}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-                <TextBlock Text="Режиссёр:" FontWeight="Bold" Width="150" />
-                <TextBlock Text="{Binding Director.FullName}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-                <TextBlock Text="Актёры:" FontWeight="Bold" Width="150" />
-                <TextBlock Text="{Binding ActorsText}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-                <TextBlock Text="Цена аренды (3 дня):" FontWeight="Bold" Width="150" />
-                <TextBlock Text="{Binding Price3Days, StringFormat={}{0:F2} руб.}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-                <TextBlock Text="Возрастной рейтинг:" FontWeight="Bold" Width="150" />
-                <TextBlock Text="{Binding LimitAge, StringFormat={}{0}+}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-                <TextBlock Text="Дата выхода:" FontWeight="Bold" Width="150" />
-                <TextBlock Text="{Binding ReleaseDate, StringFormat=dd.MM.yyyy}" />
-            </StackPanel>
-        </StackPanel>
+        <!-- Постер фильма (при наличии) -->
+        <Border Grid.Row="1" Margin="0 15 0 0" BorderThickness="1" BorderBrush="Black"
+                VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image VerticalAlignment="Center" HorizontalAlignment="Center" 
+                       MinWidth="150" MinHeight="150"
+                       MaxWidth="400" MaxHeight="270">
+                <Image.Source>
+                    <Binding Path="PosterPath" >
+                        <Binding.TargetNullValue>
+                            <ImageSource>/Resources/no_image_avaliable.png</ImageSource>
+                        </Binding.TargetNullValue>
+                    </Binding>
+                </Image.Source>
+            </Image>
+        </Border>
 
-        <Button x:Name="BtnRent" Content="Арендовать" Grid.Row="2" MaxWidth="150" Margin="0 20" Click="BtnRent_Click" />
+        <!-- Данные о фильме -->
+        <Grid Grid.Row="2" Margin="0 0 0 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Жанр:" FontWeight="Bold" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Genre.Name}" />
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Автор:" FontWeight="Bold" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Author.FullName}" />
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Режиссёр:" FontWeight="Bold" />
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Director.FullName}" />
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Актёры:" FontWeight="Bold" />
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ActorsText}" />
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Цена аренды (3 дня):" FontWeight="Bold" />
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Price3Days, StringFormat={}{0:N2} руб.}" />
+
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Возрастной рейтинг:" FontWeight="Bold" />
+            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding LimitAge, StringFormat={}{0}+}" />
+                       
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Дата выхода:" FontWeight="Bold" />
+            <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding ReleaseDate, StringFormat=dd.MM.yyyy}" />
+        </Grid>
+
+        <Button x:Name="BtnRent" Content="Арендовать" Grid.Row="3" MaxWidth="150" Margin="0 10" Click="BtnRent_Click" />
     </Grid>
 </Window>

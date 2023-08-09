@@ -26,6 +26,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         
@@ -84,13 +85,29 @@
                  MaxHeight="30"
                  Text="{Binding Path=Price3Days, StringFormat={}{0:F2}}" />
 
+        <!-- Добавление постера -->
+        <Grid Grid.Row="7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Путь к файлу:" Margin="5 0 10 0" />
+                <TextBlock Text="{Binding PosterPath}" FontWeight="Bold" />
+            </StackPanel>
+            
+            <Button x:Name="BtnSelectPoster" Grid.Column="1" Width="140" Content="Выбрать постер" Click="BtnSelectPoster_Click"></Button>
+        </Grid>
+
+
         <!-- Добавление актёров в фильм -->
-        <Button x:Name="BtnActors" Width="120" Grid.Row="7" 
+        <Button x:Name="BtnActors" Width="120" Grid.Row="8" 
                 HorizontalAlignment="Left" 
                 Content="Актёры" Click="BtnActors_Click" />
 
         <!-- Кнопки для сохранения и отмены изменений -->
-        <StackPanel Margin="16" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="8">
+        <StackPanel Margin="16" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="9">
             <Button x:Name="BtnSave" 
                 Content="Сохранить" 
                 Width="120" 
