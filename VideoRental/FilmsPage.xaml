@@ -76,7 +76,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="auto" Header="Цена за 3 дня" Binding="{Binding Price3Days, StringFormat=F2}">
+                <DataGridTextColumn Width="auto" Header="Цена за 3 дня" Binding="{Binding Price3Days, StringFormat=N2}">
                     <!-- Расположить числа по центру -->
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">

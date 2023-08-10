@@ -83,7 +83,7 @@
                  Padding="5 0"
                  Width="160"
                  MaxHeight="30"
-                 Text="{Binding Path=Price3Days, StringFormat={}{0:F2}}" />
+                 Text="{Binding Path=Price3Days, StringFormat={}{0:N2}}" />
 
         <!-- Добавление постера -->
         <Grid Grid.Row="7">
