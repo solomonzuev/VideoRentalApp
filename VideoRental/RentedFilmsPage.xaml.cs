@@ -2,25 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VideoRental.Domain;
 using VideoRental.Models;
 
 namespace VideoRental
 {
-    /// <summary>
-    /// Логика взаимодействия для RentedFilmsPage.xaml
-    /// </summary>
     public partial class RentedFilmsPage : Page
     {
         private readonly Customer _customer;
@@ -44,6 +34,7 @@ namespace VideoRental
             if (Manager.CurrentUser is Employee)
             {
                 DGColumnStatus.Visibility = Visibility.Visible;
+                BtnCancel.Visibility = Visibility.Visible;
             }
         }
 
@@ -104,6 +95,11 @@ namespace VideoRental
                     }
                 }
             }
+        }
+
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.GoBack();
         }
     }
 }

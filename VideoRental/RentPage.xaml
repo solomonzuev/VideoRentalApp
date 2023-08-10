@@ -28,7 +28,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
+
         <!-- Заголовок страницы -->
         <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Film.Name}" Margin="0 15" FontSize="24" FontWeight="Bold" />
 
@@ -79,21 +79,21 @@
 
         <!-- Сумма и кнопка -->
         <StackPanel Grid.Row="4" Grid.ColumnSpan="2"
-                    VerticalAlignment="Bottom" Margin="0 30">
-            
-        <!-- Сумма -->
+                    VerticalAlignment="Bottom" Margin="0 30 0 25">
+
+            <!-- Сумма -->
             <TextBlock Grid.Row="4" Grid.ColumnSpan="3"
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Bottom"
                    FontSize="18" FontWeight="Bold"
                    Text="{Binding TotalPrice, StringFormat={} Сумма: {0:N2} РУБ}" />
 
-            <!-- Кнопка "Арендовать" -->
-        <Button x:Name="BtnRent"
-                Grid.Row="5" Grid.ColumnSpan="2" 
-                Margin="8" Padding="25 5" 
-                HorizontalAlignment="Center" Content="Арендовать" Click="BtnRent_Click"/>
+            <!-- Кнопки "Арендовать" и "Отмена" -->
+            <StackPanel HorizontalAlignment="Center">
+                <Button x:Name="BtnRent" Content="Арендовать" Margin="0 8" Click="BtnRent_Click"/>
+                <Button x:Name="BtnCancel" Content="Отмена" Background="Red" Click="BtnCancel_Click" />
+            </StackPanel>
         </StackPanel>
-        
+
     </Grid>
 </Page>

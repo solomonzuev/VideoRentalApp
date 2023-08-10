@@ -24,6 +24,12 @@
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Padding" Value="16 10"/>
         </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="MaxWidth" Value="150" />
+            <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="5" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+        </Style>
     </Page.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -32,24 +38,27 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal">
+        <DockPanel>
             <!-- Ввод текста для поиска -->
             <TextBox 
                 x:Name="TextToSearch"
                 Margin="10,0" Width="250" 
                 materialDesign:HintAssist.Hint="Введите текст для поиска" 
-                KeyDown="TextToSearch_KeyDown"
-                VerticalAlignment="Center"/>
+                KeyDown="TextToSearch_KeyDown" />
 
-            <!-- Кнопка "Поиск" -->
+            <!-- Кнопки "Поиск" и "Отмена" -->
             <Button 
                 x:Name="BtnSearch"
-                materialDesign:ButtonAssist.CornerRadius="5"
-                Margin="10" MaxWidth="150" 
                 Content="Поиск"
-                Click="BtnSearch_Click"
-                VerticalAlignment="Center"/>
-        </StackPanel>
+                Click="BtnSearch_Click" />
+
+            <Button x:Name="BtnCancel" 
+                    Content="Назад"
+                    Background="Red" 
+                    HorizontalAlignment="Right"
+                    Visibility="Hidden"
+                    Click="BtnCancel_Click" />
+        </DockPanel>
 
         <Separator Grid.Row="1" 
            Height="1" 

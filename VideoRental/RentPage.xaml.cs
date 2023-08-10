@@ -178,5 +178,14 @@ namespace VideoRental
                 e.Handled = true;
             }
         }
+
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Вы уверены, что отменить аренду фильма?", 
+                Title, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                Manager.MainFrame.GoBack();
+            }
+        }
     }
 }
