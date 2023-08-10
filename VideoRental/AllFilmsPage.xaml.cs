@@ -73,7 +73,7 @@ namespace VideoRental
             return filmMedia.All(fm => !fm.Transactions.Any());
         }
 
-        private void ReloadEntries()
+        private static void ReloadEntries()
         {
             // Обновляем сущности
             var entries = VideoRentalDbContext.GetContext().ChangeTracker.Entries().ToList();

@@ -1,0 +1,98 @@
+﻿<Page x:Class="VideoRental.CelebritiesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VideoRental"
+      mc:Ignorable="d" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="14"
+      TextOptions.TextFormattingMode="Ideal" 
+      TextOptions.TextRenderingMode="Auto"        
+      Background="{DynamicResource MaterialDesignPaper}"
+      FontFamily="{DynamicResource MaterialDesignFont}"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="CelebritiesPage" IsVisibleChanged="Page_IsVisibleChanged">
+    <Page.Resources>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignDivider}" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Padding" Value="16 10"/>
+        </Style>
+    </Page.Resources>
+    <Grid Margin="10 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <!-- Ввод текста для поиска -->
+            <TextBox 
+                x:Name="TextToSearch"
+                Margin="10,0" Width="250" 
+                materialDesign:HintAssist.Hint="Введите текст для поиска" 
+                KeyDown="TextToSearch_KeyDown"
+                VerticalAlignment="Center" />
+
+            <!-- Кнопка "Поиск" -->
+            <Button 
+                x:Name="BtnSearch"
+                materialDesign:ButtonAssist.CornerRadius="5"
+                Margin="10" MaxWidth="150" 
+                Content="Поиск"
+                VerticalAlignment="Center"
+                Click="BtnSearch_Click" />
+        </StackPanel>
+
+        <Separator Grid.Row="1" 
+            Height="1" 
+            Background="{DynamicResource MaterialDesignDivider}" 
+            Margin="0 5 0 10"/>
+
+        <DataGrid x:Name="DGridCelebrities" 
+            Grid.Row="2"
+            Style="{StaticResource MaterialDesignDataGrid}"
+            AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="2*" Header="Полное имя" Binding="{Binding FullName}" />
+                <DataGridTextColumn Width="*" Header="Пол" Binding="{Binding Sex}" />
+                <DataGridTextColumn Width="*" Header="Рост" Binding="{Binding Height}" />
+                <DataGridTextColumn Width="1.5*" Header="Дата рождения" Binding="{Binding Birthdate, StringFormat=dd.MM.yyyy}" />
+                <DataGridTextColumn Width="1.5*" Header="Дата смерти" Binding="{Binding Deathdate, StringFormat=dd.MM.yyyy}" />
+                <DataGridTemplateColumn Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                               x:Name="BtnEdit"
+                               materialDesign:ButtonAssist.CornerRadius="5"
+                               Margin="20 0 20 0"
+                               Click="BtnEdit_Click"
+                               Content="Редактировать" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DockPanel Margin="0 10 0 0" Grid.Row="3">
+            <!-- Кнопки "Удалить" и "Добавить" -->
+            <Button x:Name="BtnDelete" HorizontalAlignment="Left"
+                materialDesign:ButtonAssist.CornerRadius="5"
+                Width="150"
+                Background="Red"
+                BorderBrush="Red"
+                VerticalAlignment="Center" Content="Удалить" Margin="10 5 10 0" Click="BtnDelete_Click"/>
+            <Button x:Name="BtnAdd" HorizontalAlignment="Right"
+                materialDesign:ButtonAssist.CornerRadius="5"
+                Width="150"
+                VerticalAlignment="Center" Content="Добавить" Margin="10 5 10 0" Click="BtnAdd_Click"/>
+        </DockPanel>
+    </Grid>
+</Page>

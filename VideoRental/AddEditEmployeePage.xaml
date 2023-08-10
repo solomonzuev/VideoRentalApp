@@ -28,14 +28,14 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <!-- ФИО работника -->
-        <TextBox materialDesign:HintAssist.Hint="ФИО работника"
+        <!-- ФИО сотрудника -->
+        <TextBox materialDesign:HintAssist.Hint="ФИО сотрудника"
                  MaxHeight="30"
                  MaxLength="100"
                  Text="{Binding Path=FullName}" />
 
-        <!-- Номер телефона работника -->
-        <TextBox materialDesign:HintAssist.Hint="Номер телефона"
+        <!-- Номер телефона сотрудника -->
+        <TextBox materialDesign:HintAssist.Hint="Номер сотрудника"
                  Grid.Row="1"
                  MaxHeight="30"
                  HorizontalAlignment="Left"
@@ -43,37 +43,34 @@
                  MaxLength="12"
                  Text="{Binding Path=Phone}" />
 
-        <!-- Эл. почта работника -->
+        <!-- Эл. почта сотрудника -->
         <TextBox x:Name="TBoxEmail"
-                 materialDesign:HintAssist.Hint="Эл. почта работника"
+                 materialDesign:HintAssist.Hint="Эл. почта сотрудника"
                  Grid.Row="2"
                  MaxHeight="30"
                  MaxLength="100"
                  Text="{Binding Path=User.Email}" />
 
-        <!-- Пароль работника -->
+        <!-- Пароль сотрудника -->
         <TextBox x:Name="TBoxPassword" 
-                materialDesign:HintAssist.Hint="Пароль"
+                materialDesign:HintAssist.Hint="Пароль сотрудника"
                 Grid.Row="3"
                 MaxHeight="30" 
                 MaxLength="100"
                 Text="{Binding User.Password}"/>
 
-
-
-        <!-- Должность работника -->
+        <!-- Должность сотрудника -->
         <ComboBox x:Name="CBoxPositions" Grid.Row="4"
-                      materialDesign:HintAssist.Hint="Должность"
+                      materialDesign:HintAssist.Hint="Должность сотрудника"
                       SelectedItem="{Binding Path=Position}"
                       DisplayMemberPath="Name" />
 
-        <!-- Должность работника -->
+        <!-- Адрес магазина работы сотрудника -->
         <ComboBox x:Name="CBoxStoreLocations" Grid.Row="5"
-                      materialDesign:HintAssist.Hint="Адрес магазина для работы"
+                      materialDesign:HintAssist.Hint="Адрес магазина работы сотрудника"
                       SelectedItem="{Binding Path=Store}"
                       DisplayMemberPath="Address" />
         
-
         <!-- Кнопки для сохранения и отмены изменений -->
         <StackPanel Margin="16" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="8">
             <Button x:Name="BtnSave" 

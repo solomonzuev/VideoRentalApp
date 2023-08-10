@@ -9,9 +9,6 @@ using VideoRental.Models;
 
 namespace VideoRental
 {
-    /// <summary>
-    /// Логика взаимодействия для AddEditEmployeePage.xaml
-    /// </summary>
     public partial class AddEditEmployeePage : Page
     {
         private readonly Employee _employee;

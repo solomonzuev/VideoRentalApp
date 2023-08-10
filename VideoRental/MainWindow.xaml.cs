@@ -49,6 +49,7 @@ namespace VideoRental
                     new MenuItemViewModel("Фильмы", typeof(AllFilmsPage)),
                     new MenuItemViewModel("Клиенты", typeof(CustomersPage)),
                     new MenuItemViewModel("Фильмы на носителях", typeof(FilmsInMediaPage)),
+                    new MenuItemViewModel("Знаменитости", typeof(CelebritiesPage)),
                 });
             }
             
