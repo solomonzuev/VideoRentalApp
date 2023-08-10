@@ -1,26 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VideoRental.Domain;
 using VideoRental.Models;
 
 namespace VideoRental
 {
-    /// <summary>
-    /// Логика взаимодействия для CustomersPage.xaml
-    /// </summary>
     public partial class CustomersPage : Page
     {
         public CustomersPage()
@@ -50,7 +38,7 @@ namespace VideoRental
             }
         }
 
-        private void ReloadEntries()
+        private static void ReloadEntries()
         {
             // Обновляем сущности
             var entries = VideoRentalDbContext.GetContext().ChangeTracker.Entries().ToList();
@@ -84,10 +72,17 @@ namespace VideoRental
 
         private void BtnShowRented_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button { DataContext : Customer customer })
+            if (sender is Button { DataContext: Customer customer })
             {
-                Manager.MainFrame.Navigate(new RentedFilmsPage(customer));
+                Manager.MainFrame.Navigate(new RentedFilmsPage(customer, GetEmployeeStoreLocation()));
             }
+        }
+
+        private static StoreLocation? GetEmployeeStoreLocation()
+        {
+            var emp = Manager.CurrentUser as Employee;
+            var store = VideoRentalDbContext.GetContext().StoreLocations.FirstOrDefault(s => s.Employees.Any(e => e.Id == emp.Id));
+            return store;
         }
 
         private void BtnChangeBlackList_Click(object sender, RoutedEventArgs e)

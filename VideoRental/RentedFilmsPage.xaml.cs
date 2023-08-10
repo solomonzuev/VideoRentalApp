@@ -14,11 +14,13 @@ namespace VideoRental
     public partial class RentedFilmsPage : Page
     {
         private readonly Customer _customer;
+        private readonly StoreLocation? _storeLocation;
 
-        public RentedFilmsPage(Customer customer)
+        public RentedFilmsPage(Customer customer, StoreLocation? storeLocation = null)
         {
             InitializeComponent();
             _customer = customer;
+            _storeLocation = storeLocation;
         }
 
         public RentedFilmsPage()
@@ -51,6 +53,11 @@ namespace VideoRental
                 .Include(t => t.VideosInMedia.MediaType)
                 .Include(t => t.VideosInMedia.Store)
                 .Where(t => t.Customer == _customer);
+
+            if (_storeLocation != null) // Ищем арендованные фильмы клиента, которые арендовались в определенном магазине
+            {
+                query = query.Where(t => t.VideosInMedia.Store.Id == _storeLocation.Id);
+            }
 
             // Фильтрация по введённому тексту
             if (!string.IsNullOrWhiteSpace(TextToSearch.Text))
@@ -93,6 +100,10 @@ namespace VideoRental
                     {
                         MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Данный фильм нельзя заново выдать, так как период аренды закончен!", Title, MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }
