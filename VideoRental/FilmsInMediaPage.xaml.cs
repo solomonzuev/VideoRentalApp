@@ -31,7 +31,6 @@ namespace VideoRental
             Manager.MainFrame.Navigate(new AddEditFilmInMediaPage());
         }
 
-        // TODO - Сделать проверку перед удалением фильмов на носителях
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             var selectedItems = DGridFilmsInMedia.SelectedItems.Cast<FilmsInMedia>().ToList();
@@ -96,7 +95,7 @@ namespace VideoRental
                     .ToList();
         }
 
-        private void ReloadEntries()
+        private static void ReloadEntries()
         {
             // Обновляем сущности
             var entries = VideoRentalDbContext.GetContext().ChangeTracker.Entries().ToList();

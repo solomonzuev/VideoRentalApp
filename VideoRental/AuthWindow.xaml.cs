@@ -1,29 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using VideoRental.Domain;
 using VideoRental.Models;
 
 namespace VideoRental
 {
-    /// <summary>
-    /// Логика взаимодействия для AuthWindow.xaml
-    /// </summary>
     public partial class AuthWindow : Window
     {
         private const string ADMIN_POSITION = "Администратор";
+        private const string EMAIL_PATTERN = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+        private const string PHONE_PATTERN = @"^\+7\d{10}$";
 
         public AuthWindow()
         {
@@ -81,8 +72,8 @@ namespace VideoRental
                 .Include(emp => emp.Position)
                 .Include(emp => emp.Store)
                 .Include(emp => emp.User)
-                .SingleOrDefaultAsync(emp => emp.User != null 
-                    && emp.Position != null 
+                .SingleOrDefaultAsync(emp => emp.User != null
+                    && emp.Position != null
                     && emp.Position.Name == ADMIN_POSITION
                     && EF.Functions.Collate(emp.User.Email, "Latin1_General_CS_AS") == TBoxEmail.Text
                     && EF.Functions.Collate(emp.User.Password, "Latin1_General_CS_AS") == PBoxPassword.Password);
@@ -95,7 +86,7 @@ namespace VideoRental
             // Сравнение строк в базе данных с учётом регистра
             var employee = await VideoRentalDbContext.GetContext().Employees
                 .Include(emp => emp.Position)
-                .SingleOrDefaultAsync(emp => emp.User != null 
+                .SingleOrDefaultAsync(emp => emp.User != null
                     && emp.Position != null
                     && emp.Position.Name != ADMIN_POSITION
                     && EF.Functions.Collate(emp.User.Email, "Latin1_General_CS_AS") == TBoxEmail.Text
@@ -123,7 +114,7 @@ namespace VideoRental
                 return false;
             }
 
-            if (!Regex.IsMatch(TBoxEmail.Text, @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"))
+            if (!Regex.IsMatch(TBoxEmail.Text, EMAIL_PATTERN))
             {
                 MessageBox.Show("Почта введена неверно!", Title, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
@@ -146,7 +137,7 @@ namespace VideoRental
                 return false;
             }
 
-            if (!Regex.IsMatch(TBoxPhone.Text, @"^\+7\d{10}$"))
+            if (!Regex.IsMatch(TBoxPhone.Text, PHONE_PATTERN))
             {
                 MessageBox.Show("Пожалуйста, введите номер в формате +7XXXXXXXXXX, где X - любая цифра!", Title, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;

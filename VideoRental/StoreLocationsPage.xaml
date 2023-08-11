@@ -1,0 +1,102 @@
+﻿<Page x:Class="VideoRental.StoreLocationsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VideoRental"
+      mc:Ignorable="d" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="14"
+      TextOptions.TextFormattingMode="Ideal" 
+      TextOptions.TextRenderingMode="Auto"        
+      Background="{DynamicResource MaterialDesignPaper}"
+      FontFamily="{DynamicResource MaterialDesignFont}"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="StoreLocationsPage" 
+      IsVisibleChanged="Page_IsVisibleChanged">
+
+    <Page.Resources>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignDivider}" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Padding" Value="16 10"/>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <!-- Ввод текста для поиска -->
+            <TextBox 
+                    x:Name="TextToSearch"
+                    Margin="10,0" Width="250" 
+                    materialDesign:HintAssist.Hint="Введите текст для поиска"
+                    KeyDown="TextToSearch_KeyDown"
+                    VerticalAlignment="Center"/>
+
+            <!-- Кнопка "Поиск" -->
+            <Button 
+                    x:Name="BtnSearch"
+                    materialDesign:ButtonAssist.CornerRadius="5"
+                    Margin="10" MaxWidth="150" 
+                    Content="Поиск"
+                    Click="BtnSearch_Click"
+                    VerticalAlignment="Center"/>
+        </StackPanel>
+        <Separator Grid.Row="1" 
+                Height="1" 
+                Background="{DynamicResource MaterialDesignDivider}" 
+                Margin="0 5 0 10"/>
+        <DataGrid x:Name="DGridStoreLocations"
+                      Grid.Row="2"
+                      ScrollViewer.CanContentScroll="True"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      Style="{StaticResource MaterialDesignDataGrid}"
+                      AutoGenerateColumns="False" IsReadOnly="True">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="1.5*" Header="Адрес магазина" Binding="{Binding Address}" />
+                <DataGridTextColumn Width="*" Header="Номер телефона" Binding="{Binding Phone}" />
+                <DataGridTextColumn Width="*" Header="Эл. почта" Binding="{Binding Email}" />
+                <DataGridTextColumn Width="*" Header="Время открытия" Binding="{Binding OpeningTime, StringFormat=hh\\:mm}" />
+                <DataGridTextColumn Width="*" Header="Время закрытия" Binding="{Binding ClosingTime, StringFormat=hh\\:mm}" />
+                <DataGridTemplateColumn Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                    x:Name="BtnEdit"
+                                    materialDesign:ButtonAssist.CornerRadius="5"
+                                    Margin="20 0 20 0"
+                                    Content="Редактировать"
+                                    Click="BtnEdit_Click" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Кнопки "Удалить" и "Добавить" -->
+        <DockPanel Grid.Row="4" Margin="0 10 0 0">
+            <Button x:Name="BtnDelete" Grid.Row="4" HorizontalAlignment="Left"
+                materialDesign:ButtonAssist.CornerRadius="5"
+                Width="150"
+                Background="Red"
+                BorderBrush="Red"
+                VerticalAlignment="Center" Content="Удалить" Margin="10 5 10 0" Click="BtnDelete_Click"/>
+            <Button x:Name="BtnAdd" Grid.Row="4" HorizontalAlignment="Right"
+                materialDesign:ButtonAssist.CornerRadius="5"
+                Width="150"
+                VerticalAlignment="Center" Content="Добавить" Margin="10 5 10 0" Click="BtnAdd_Click"/>
+        </DockPanel>
+    </Grid>
+</Page>

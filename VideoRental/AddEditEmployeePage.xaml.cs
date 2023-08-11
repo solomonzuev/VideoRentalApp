@@ -11,6 +11,7 @@ namespace VideoRental
 {
     public partial class AddEditEmployeePage : Page
     {
+        private const string PHONE_PATTERN = @"^\+7\d{10}$";
         private readonly Employee _employee;
 
         public AddEditEmployeePage(Employee? employee = null)
@@ -78,7 +79,7 @@ namespace VideoRental
                 return false;
             }
 
-            if (_employee.Phone != null && !Regex.IsMatch(_employee.Phone, @"^\+7\d{10}$"))
+            if (_employee.Phone != null && !Regex.IsMatch(_employee.Phone, PHONE_PATTERN))
             {
                 MessageBox.Show("Пожалуйста, введите номер телефона в формате +7XXXXXXXXXX, где X - любая цифра!", Title, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;

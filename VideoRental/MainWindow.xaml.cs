@@ -40,6 +40,7 @@ namespace VideoRental
                 DataContext = new MainWindowViewModel(new()
                 {
                     new MenuItemViewModel("Сотрудники", typeof(EmployeesPage)),
+                    new MenuItemViewModel("Магазины", typeof(StoreLocationsPage)),
                 });
             }
             else if (Manager.CurrentUser is Employee)
