@@ -102,7 +102,7 @@ namespace VideoRental
 
             if (CheckIfDuplicate())
             {
-                MessageBox.Show("Товар с выбранным названием уже выпущен на выбранном носителе!", Title, MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Товар с указанными данными уже существует в базе данных!", Title, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
 
@@ -114,7 +114,8 @@ namespace VideoRental
             return VideoRentalDbContext.GetContext().FilmsInMedia
                 .Any(fm => fm.Id != _filmInMedia.Id 
                     && fm.Film == _filmInMedia.Film 
-                    && fm.MediaType == _filmInMedia.MediaType);
+                    && fm.MediaType == _filmInMedia.MediaType
+                    && fm.Store == _filmInMedia.Store);
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
