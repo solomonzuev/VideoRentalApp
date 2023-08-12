@@ -16,9 +16,8 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="StoreLocationsPage" 
       IsVisibleChanged="Page_IsVisibleChanged">
-
     <Page.Resources>
-        <Style TargetType="DataGridColumnHeader">
+        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
             <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
             <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
             <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignDivider}" />
@@ -26,7 +25,7 @@
             <Setter Property="Padding" Value="16 10"/>
         </Style>
     </Page.Resources>
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>

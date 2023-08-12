@@ -17,7 +17,7 @@
       Title="Арендованные фильмы"
       Loaded="Page_Loaded">
     <Page.Resources>
-        <Style TargetType="DataGridColumnHeader">
+        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
             <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
             <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
             <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignDivider}" />

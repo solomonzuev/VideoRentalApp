@@ -17,7 +17,7 @@
       Title="Фильмы на носителях"
       IsVisibleChanged="Page_IsVisibleChanged">
     <Page.Resources>
-        <Style TargetType="DataGridColumnHeader">
+        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
             <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
             <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
             <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignDivider}" />
@@ -25,7 +25,7 @@
             <Setter Property="Padding" Value="16 10"/>
         </Style>
     </Page.Resources>
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -67,14 +67,7 @@
                 <DataGridTextColumn Width="2*" Header="Название фильма" Binding="{Binding Film.Name}" />
                 <DataGridTextColumn Width="*" Header="Носитель" Binding="{Binding MediaType.Name}" />
                 <DataGridTextColumn Width="*" Header="Адрес магазина" Binding="{Binding Store.Address}" />
-                <DataGridTextColumn Width="*" Header="Количество" Binding="{Binding Units}">
-                    <!-- Расположить числа по центру -->
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="HorizontalAlignment" Value="Center"/>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
+                <DataGridTextColumn Width="*" Header="Количество" Binding="{Binding Units}" />
                 <DataGridTextColumn Width="*" Header="Доступность" Binding="{Binding IsAvailableText}" />
                 <DataGridTemplateColumn Width="auto">
                     <DataGridTemplateColumn.CellTemplate>
