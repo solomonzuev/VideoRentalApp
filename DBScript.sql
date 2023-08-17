@@ -2,12 +2,6 @@ USE [master]
 GO
 /****** Object:  Database [VideoRentalDB]    Script Date: 17.08.2023 13:31:13 ******/
 CREATE DATABASE [VideoRentalDB]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'VideoRentalDB', FILENAME = N'VideoRentalDB.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
- LOG ON 
-( NAME = N'VideoRentalDB_log', FILENAME = N'VideoRentalDB_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
- WITH CATALOG_COLLATION = DATABASE_DEFAULT
 GO
 ALTER DATABASE [VideoRentalDB] SET COMPATIBILITY_LEVEL = 150
 GO
@@ -79,30 +73,6 @@ GO
 ALTER DATABASE [VideoRentalDB] SET QUERY_STORE = OFF
 GO
 USE [VideoRentalDB]
-GO
-/****** Object:  User [VideoRental_Employee]    Script Date: 17.08.2023 13:31:14 ******/
-CREATE USER [VideoRental_Employee] FOR LOGIN [VideoRental_Employee] WITH DEFAULT_SCHEMA=[dbo]
-GO
-/****** Object:  User [VideoRental_Client]    Script Date: 17.08.2023 13:31:14 ******/
-CREATE USER [VideoRental_Client] FOR LOGIN [VideoRental_Client] WITH DEFAULT_SCHEMA=[dbo]
-GO
-/****** Object:  User [VideoRental_Admin]    Script Date: 17.08.2023 13:31:14 ******/
-CREATE USER [VideoRental_Admin] FOR LOGIN [VideoRental_Admin] WITH DEFAULT_SCHEMA=[dbo]
-GO
-/****** Object:  DatabaseRole [Продавец]    Script Date: 17.08.2023 13:31:14 ******/
-CREATE ROLE [Продавец]
-GO
-/****** Object:  DatabaseRole [Клиент]    Script Date: 17.08.2023 13:31:14 ******/
-CREATE ROLE [Клиент]
-GO
-/****** Object:  DatabaseRole [Администратор]    Script Date: 17.08.2023 13:31:14 ******/
-CREATE ROLE [Администратор]
-GO
-ALTER ROLE [Продавец] ADD MEMBER [VideoRental_Employee]
-GO
-ALTER ROLE [Клиент] ADD MEMBER [VideoRental_Client]
-GO
-ALTER ROLE [Администратор] ADD MEMBER [VideoRental_Admin]
 GO
 /****** Object:  Table [dbo].[ActorsInVideos]    Script Date: 17.08.2023 13:31:14 ******/
 SET ANSI_NULLS ON
@@ -392,7 +362,7 @@ ALTER TABLE [dbo].[FilmCredits]  WITH CHECK ADD  CONSTRAINT [CK_Height_VideoPart
 GO
 ALTER TABLE [dbo].[FilmCredits] CHECK CONSTRAINT [CK_Height_VideoParticipants]
 GO
-ALTER TABLE [dbo].[FilmCredits]  WITH CHECK ADD  CONSTRAINT [CK_Sex_VideoParticipants] CHECK  (([Sex]=N'ж' OR [Sex]=N'м' OR [Sex]=N'Ж' OR [Sex]=N'М'))
+ALTER TABLE [dbo].[FilmCredits]  WITH CHECK ADD  CONSTRAINT [CK_Sex_VideoParticipants] CHECK  (([Sex]=N'�' OR [Sex]=N'�' OR [Sex]=N'�' OR [Sex]=N'�'))
 GO
 ALTER TABLE [dbo].[FilmCredits] CHECK CONSTRAINT [CK_Sex_VideoParticipants]
 GO
@@ -407,13 +377,11 @@ GO
 ALTER TABLE [dbo].[Transactions]  WITH CHECK ADD  CONSTRAINT [CK_Transactions] CHECK  (([EndDate]>[StartDate]))
 GO
 ALTER TABLE [dbo].[Transactions] CHECK CONSTRAINT [CK_Transactions]
-
 GO
-SET IDENTITY_INSERT [dbo].[Users] ON 
-GO
-INSERT [dbo].[Users] ([Id], [Email], [Password]) VALUES (2008, N'adm1@example.com', N'admin')
-GO
-
+INSERT [dbo].[Users] ([Email], [Password]) VALUES (N'adm1@example.com', N'admin')
+GO 
+INSERT [dbo].[Employees] ([FullName], [UserId]) VALUES (N'������ ���� ��������', (SELECT Id from Users where Email like N'adm1@example.com'))
+GO 
 USE [master]
 GO
 ALTER DATABASE [VideoRentalDB] SET  READ_WRITE 
