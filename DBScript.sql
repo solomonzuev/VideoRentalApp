@@ -74,30 +74,6 @@ ALTER DATABASE [VideoRentalDB] SET QUERY_STORE = OFF
 GO
 USE [VideoRentalDB]
 GO
-/****** Object:  Table [dbo].[ActorsInVideos]    Script Date: 17.08.2023 14:10:38 ******/
-CREATE USER [VideoRental_Employee] FOR LOGIN [VideoRental_Employee] WITH DEFAULT_SCHEMA=[dbo]
-GO
-/****** Object:  User [VideoRental_Client]    Script Date: 17.08.2023 13:31:14 ******/
-CREATE USER [VideoRental_Client] FOR LOGIN [VideoRental_Client] WITH DEFAULT_SCHEMA=[dbo]
-GO
-/****** Object:  User [VideoRental_Admin]    Script Date: 17.08.2023 13:31:14 ******/
-CREATE USER [VideoRental_Admin] FOR LOGIN [VideoRental_Admin] WITH DEFAULT_SCHEMA=[dbo]
-GO
-/****** Object:  DatabaseRole [Продавец]    Script Date: 17.08.2023 13:31:14 ******/
-CREATE ROLE [Продавец]
-GO
-/****** Object:  DatabaseRole [Клиент]    Script Date: 17.08.2023 13:31:14 ******/
-CREATE ROLE [Клиент]
-GO
-/****** Object:  DatabaseRole [Администратор]    Script Date: 17.08.2023 13:31:14 ******/
-CREATE ROLE [Администратор]
-GO
-ALTER ROLE [Продавец] ADD MEMBER [VideoRental_Employee]
-GO
-ALTER ROLE [Клиент] ADD MEMBER [VideoRental_Client]
-GO
-ALTER ROLE [Администратор] ADD MEMBER [VideoRental_Admin]
-GO
 /****** Object:  Table [dbo].[ActorsInVideos]    Script Date: 17.08.2023 13:31:14 ******/
 SET ANSI_NULLS ON
 GO
