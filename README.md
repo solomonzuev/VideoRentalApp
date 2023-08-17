@@ -1,6 +1,6 @@
 # VideoRentalApp
 
-# Description
+## Description
 
 The VideoRentalApp is a comprehensive solution for a video rental store. It allows customers to search and browse through a collection of films, view details such as genre, release date, and availability, and rent films for a specified period. Customers can also return films they've rented. Operators can issue and receive films back, as well as manage information about films. Administrators have access to an admin panel where they can manage employee accounts and store details. The system includes authentication and authorization for different types of users.
 
