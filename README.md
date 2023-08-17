@@ -46,6 +46,7 @@ The VideoRentalApp is built using the following technologies:
 2. Open the project in Microsoft Visual Studio.
 3. Ensure that Entity Framework is installed via NuGet Package Manager.
 4. Build the project to resolve any dependencies.
+5. Open and execute the 'DBScript.sql' file in SQL Server Management Studio (SSMS) to create the database.
 
 ## Executing Program
 
