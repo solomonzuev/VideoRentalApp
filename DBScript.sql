@@ -74,6 +74,30 @@ ALTER DATABASE [VideoRentalDB] SET QUERY_STORE = OFF
 GO
 USE [VideoRentalDB]
 GO
+/****** Object:  Table [dbo].[ActorsInVideos]    Script Date: 17.08.2023 14:10:38 ******/
+CREATE USER [VideoRental_Employee] FOR LOGIN [VideoRental_Employee] WITH DEFAULT_SCHEMA=[dbo]
+GO
+/****** Object:  User [VideoRental_Client]    Script Date: 17.08.2023 13:31:14 ******/
+CREATE USER [VideoRental_Client] FOR LOGIN [VideoRental_Client] WITH DEFAULT_SCHEMA=[dbo]
+GO
+/****** Object:  User [VideoRental_Admin]    Script Date: 17.08.2023 13:31:14 ******/
+CREATE USER [VideoRental_Admin] FOR LOGIN [VideoRental_Admin] WITH DEFAULT_SCHEMA=[dbo]
+GO
+/****** Object:  DatabaseRole [Продавец]    Script Date: 17.08.2023 13:31:14 ******/
+CREATE ROLE [Продавец]
+GO
+/****** Object:  DatabaseRole [Клиент]    Script Date: 17.08.2023 13:31:14 ******/
+CREATE ROLE [Клиент]
+GO
+/****** Object:  DatabaseRole [Администратор]    Script Date: 17.08.2023 13:31:14 ******/
+CREATE ROLE [Администратор]
+GO
+ALTER ROLE [Продавец] ADD MEMBER [VideoRental_Employee]
+GO
+ALTER ROLE [Клиент] ADD MEMBER [VideoRental_Client]
+GO
+ALTER ROLE [Администратор] ADD MEMBER [VideoRental_Admin]
+GO
 /****** Object:  Table [dbo].[ActorsInVideos]    Script Date: 17.08.2023 13:31:14 ******/
 SET ANSI_NULLS ON
 GO
@@ -89,7 +113,7 @@ CREATE TABLE [dbo].[ActorsInVideos](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Customers]    Script Date: 17.08.2023 13:31:14 ******/
+/****** Object:  Table [dbo].[Customers]    Script Date: 17.08.2023 14:10:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -106,7 +130,7 @@ CREATE TABLE [dbo].[Customers](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Employees]    Script Date: 17.08.2023 13:31:14 ******/
+/****** Object:  Table [dbo].[Employees]    Script Date: 17.08.2023 14:10:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -124,7 +148,7 @@ CREATE TABLE [dbo].[Employees](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[FilmCredits]    Script Date: 17.08.2023 13:31:14 ******/
+/****** Object:  Table [dbo].[FilmCredits]    Script Date: 17.08.2023 14:10:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -142,7 +166,7 @@ CREATE TABLE [dbo].[FilmCredits](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Films]    Script Date: 17.08.2023 13:31:14 ******/
+/****** Object:  Table [dbo].[Films]    Script Date: 17.08.2023 14:10:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -163,7 +187,7 @@ CREATE TABLE [dbo].[Films](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[FilmsInMedia]    Script Date: 17.08.2023 13:31:14 ******/
+/****** Object:  Table [dbo].[FilmsInMedia]    Script Date: 17.08.2023 14:10:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -181,7 +205,7 @@ CREATE TABLE [dbo].[FilmsInMedia](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Genres]    Script Date: 17.08.2023 13:31:14 ******/
+/****** Object:  Table [dbo].[Genres]    Script Date: 17.08.2023 14:10:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -195,7 +219,7 @@ CREATE TABLE [dbo].[Genres](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MediaTypes]    Script Date: 17.08.2023 13:31:14 ******/
+/****** Object:  Table [dbo].[MediaTypes]    Script Date: 17.08.2023 14:10:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -209,7 +233,7 @@ CREATE TABLE [dbo].[MediaTypes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Positions]    Script Date: 17.08.2023 13:31:14 ******/
+/****** Object:  Table [dbo].[Positions]    Script Date: 17.08.2023 14:10:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -224,7 +248,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StoreLocations]    Script Date: 17.08.2023 13:31:14 ******/
+/****** Object:  Table [dbo].[StoreLocations]    Script Date: 17.08.2023 14:10:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -242,7 +266,7 @@ CREATE TABLE [dbo].[StoreLocations](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Transactions]    Script Date: 17.08.2023 13:31:14 ******/
+/****** Object:  Table [dbo].[Transactions]    Script Date: 17.08.2023 14:10:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -262,7 +286,7 @@ CREATE TABLE [dbo].[Transactions](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 17.08.2023 13:31:14 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 17.08.2023 14:10:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -276,6 +300,80 @@ PRIMARY KEY CLUSTERED
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Employees] ON 
+GO
+INSERT [dbo].[Employees] ([Id], [FullName], [UserId], [PositionId]) VALUES (1, N'Иванов Иван Иванович', 1, 2)
+GO
+SET IDENTITY_INSERT [dbo].[Employees] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Genres] ON 
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (1, N'Боевик')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (2, N'Драма')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (3, N'Мелодрама')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (4, N'Комедия')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (5, N'Вестерн')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (6, N'Исторический')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (7, N'Научная фантастика')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (8, N'Фэнтези')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (9, N'Детектив')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (10, N'Ужасы')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (11, N'Нуар')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (12, N'Трагедия')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (13, N'Трагикомедия')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (14, N'Триллер')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (15, N'Приключенческий')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (16, N'Приключенческий триллер')
+GO
+INSERT [dbo].[Genres] ([Id], [Name]) VALUES (17, N'Криминал')
+GO
+SET IDENTITY_INSERT [dbo].[Genres] OFF
+GO
+SET IDENTITY_INSERT [dbo].[MediaTypes] ON 
+GO
+INSERT [dbo].[MediaTypes] ([Id], [Name]) VALUES (1, N'Blu-Ray')
+GO
+INSERT [dbo].[MediaTypes] ([Id], [Name]) VALUES (2, N'DVD')
+GO
+INSERT [dbo].[MediaTypes] ([Id], [Name]) VALUES (3, N'Цифровой код')
+GO
+SET IDENTITY_INSERT [dbo].[MediaTypes] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Positions] ON 
+GO
+INSERT [dbo].[Positions] ([Id], [Name], [Salary]) VALUES (1, N'Продавец бытовой техники', 40000.0000)
+GO
+INSERT [dbo].[Positions] ([Id], [Name], [Salary]) VALUES (2, N'Менеджер по продажам', 50000.0000)
+GO
+INSERT [dbo].[Positions] ([Id], [Name], [Salary]) VALUES (3, N'Кассир', 30000.0000)
+GO
+INSERT [dbo].[Positions] ([Id], [Name], [Salary]) VALUES (4, N'Управляющий магазина', 80000.0000)
+GO
+INSERT [dbo].[Positions] ([Id], [Name], [Salary]) VALUES (5, N'Администратор', 45000.0000)
+GO
+SET IDENTITY_INSERT [dbo].[Positions] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Users] ON 
+GO
+INSERT [dbo].[Users] ([Id], [Email], [Password]) VALUES (1, N'adm1@example.com', N'admin')
+GO
+SET IDENTITY_INSERT [dbo].[Users] OFF
 GO
 ALTER TABLE [dbo].[Customers] ADD  DEFAULT ((0)) FOR [InBlackList]
 GO
@@ -377,12 +475,4 @@ GO
 ALTER TABLE [dbo].[Transactions]  WITH CHECK ADD  CONSTRAINT [CK_Transactions] CHECK  (([EndDate]>[StartDate]))
 GO
 ALTER TABLE [dbo].[Transactions] CHECK CONSTRAINT [CK_Transactions]
-GO
-INSERT [dbo].[Users] ([Email], [Password]) VALUES (N'adm1@example.com', N'admin')
-GO 
-INSERT [dbo].[Employees] ([FullName], [UserId]) VALUES (N'Иванов Иван Иванович', (SELECT Id from Users where Email like N'adm1@example.com'))
-GO 
-USE [master]
-GO
-ALTER DATABASE [VideoRentalDB] SET  READ_WRITE 
 GO
