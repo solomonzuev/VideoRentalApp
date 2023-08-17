@@ -303,7 +303,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET IDENTITY_INSERT [dbo].[Employees] ON 
 GO
-INSERT [dbo].[Employees] ([Id], [FullName], [UserId], [PositionId]) VALUES (1, N'Иванов Иван Иванович', 1, 2)
+INSERT [dbo].[Employees] ([Id], [FullName], [UserId], [PositionId]) VALUES (1, N'Иванов Иван Иванович', 1, 5)
 GO
 SET IDENTITY_INSERT [dbo].[Employees] OFF
 GO
