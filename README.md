@@ -1,58 +1,59 @@
 # VideoRentalApp
 
-# Movie Rental System
+# Description
 
-This is a movie rental system that allows users to browse, search, and rent movies. The system includes authentication and authorization for users, as well as different levels of access for operators and administrators.
+The VideoRentalApp is a comprehensive solution for a video rental store. It allows customers to search and browse through a collection of films, view details such as genre, release date, and availability, and rent films for a specified period. Customers can also return films they've rented. Operators can issue and receive films back, as well as manage information about films. Administrators have access to an admin panel where they can manage employee accounts and store details. The system includes authentication and authorization for different types of users.
 
 ## Features
 
+Common Features:
 1. Authentication and authorization
-2. View list of movies
-3. Search movies by genre, actors, and format
-4. Rent movies
-	1. Choose the format of the movie
-	2. Select the rental period
-	3. Enter payment information (conditional payment)
-	4. Receive information on where to pick up the movie after payment
-		1. Pickup location address
-5. View rented movies
-6. View list of all movies (operator)
-	1. Ability to edit movie information
-	2. Ability to add new movies
-7. View information about rented movies (operator)
-	1. Ability to confirm movie return
-	2. Ability to rent out a movie
-	3. Ability to add user to blacklist (user will no longer be able to rent movies)
-8. View information about actors
-	1. Ability to edit actor information
-	2. Ability to add new actors
-9. Edit user information (operator)
-10. Register new employee (administrator)
-11. Design using MaterialDesignThemes library
-12. Use EntityFrameworkCore to work with the database
+
+Customer Features:
+1. View list of movies
+2. Search Movies by genre, actors, and format
+3. Rent movies
+   1. Choose pickup location address
+   2. Choose the format of the movie
+   3. Select the rental period
+4. View rented movies
+
+Operator Features:
+1. View list of movies
+2. View rented movies
+   1. Distributing and collecting films
+3. Manage celebrities' information
+4. Limited manage user accounts
+
+Administrator Features:
+1. Manage employee accounts
+2. Manage rental store details
 
 ## Technology Stack
 
-The movie rental system is built using the following technologies:
+The VideoRentalApp is built using the following technologies:
 
-- WPF
 - C#
+- NET Core 6
+- WPF
 - EntityFrameworkCore
 - MaterialDesignThemes
+- Microsoft SQL Server
 
-## Installation
+## Installing
 
-To install and run the movie rental system, follow these steps:
+1. Clone or download the project repository.
+2. Open the project in Microsoft Visual Studio.
+3. Ensure that Entity Framework is installed via NuGet Package Manager.
+4. Build the project to resolve any dependencies.
 
-1. Clone the repository.
-2. Install the required packages by running `dotnet restore`.
-3. Update the database by running `dotnet ef database update`.
-4. Run the application by running `dotnet run`.
+## Executing Program
 
-## Usage
+1. Build and run the application from within Microsoft Visual Studio.
+2. The application will launch, showing a user-friendly interface for customers to explore films and make selections.
+3. For the administrator, you have a prepared initial authentication email and password: adm1@example.com admin.
+4. IMPORTANT: The application currently only features a Russian interface!
 
-After installing and running the movie rental system, users can browse, search, and rent movies. Operators can manage movies and rented movies, while administrators can register new employees. The application uses MaterialDesignThemes for a modern and responsive design. EntityFrameworkCore is used to work with the database.
+## License
 
-## Contributors
-
-This movie rental system was created by Solomon Zuev for coursework. Please feel free to contribute to this project by submitting a pull request.
+This project is licensed under the MIT License - see the LICENSE.md file for details.
